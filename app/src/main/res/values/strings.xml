@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ColorByNumber</string>
+
+    <string name="button_launch_camera">Take Photo</string>
+</resources>
