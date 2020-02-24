@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 
 import java.util.LinkedList;
 
@@ -145,16 +146,29 @@ public class MainActivity extends Activity {
         }
     }
 
-    private boolean similarColors(int color, int pixel) {
-        int r1 = Color.red(color);
-        int g1 = Color.green(color);
-        int b1 = Color.blue(color);
+    // TODO: improve color comparison algorithm
+    private static boolean similarColors(int color, int pixel) {
+//        final int MAX_DISTANCE = 4000; //for rgb search
+        final double MAX_DISTANCE = 150.0; //lab search
 
-        int r2 = Color.red(pixel);
-        int g2 = Color.green(pixel);
-        int b2 = Color.blue(pixel);
+        double[] hsl1 = new double[3];
+        double[] hsl2 = new double[3];
+        ColorUtils.colorToLAB(color, hsl1);
+        ColorUtils.colorToLAB(pixel, hsl2);
 
-        return (r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2) < 8000;
+//        Log.d(TAG, "similarColors: hsl1 = " + hsl1[0] +", "+ hsl1[1] +", "+ hsl1[2]);
+//        Log.d(TAG, "similarColors: hsl2 = " + hsl2[0] +", "+ hsl2[1] +", "+ hsl2[2]);
+
+//        int r1 = Color.red(color);
+//        int g1 = Color.green(color);
+//        int b1 = Color.blue(color);
+//
+//        int r2 = Color.red(pixel);
+//        int g2 = Color.green(pixel);
+//        int b2 = Color.blue(pixel);
+
+//        return (r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2) < MAX_DISTANCE;
+        return (hsl1[0] - hsl2[0])*(hsl1[0] - hsl2[0]) + (hsl1[1] - hsl2[1])*(hsl1[1] - hsl2[1]) + (hsl1[2] - hsl2[2])*(hsl1[2] - hsl2[2]) <= MAX_DISTANCE;
     }
 
     private static PixelCoordinates getNextFalseInArray(boolean[][] booleanArray){
