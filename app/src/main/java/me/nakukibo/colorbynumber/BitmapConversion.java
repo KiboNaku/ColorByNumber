@@ -7,10 +7,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.LinkedList;
 
 class BitmapConversion {
-
-    /**
-     *
-     * */
+    
     static void convert(Bitmap photo){
         boolean[][] changedColor = new boolean[photo.getHeight()][photo.getWidth()];
 
