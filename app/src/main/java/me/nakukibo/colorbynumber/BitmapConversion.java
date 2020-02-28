@@ -63,7 +63,7 @@ class BitmapConversion {
     // TODO: improve color comparison algorithm
     private static boolean similarColors(int color, int pixel) {
 //        final int MAX_DISTANCE = 4000; //for rgb search
-        final double MAX_DISTANCE = 150.0; //lab search
+        final double MAX_DISTANCE = 180.0; //lab search
 
         double[] hsl1 = new double[3];
         double[] hsl2 = new double[3];
@@ -74,7 +74,7 @@ class BitmapConversion {
 //        Log.d(TAG, "similarColors: hsl2 = " + hsl2[0] +", "+ hsl2[1] +", "+ hsl2[2]);
 
 //        int r1 = Color.red(color);
-//        int g1 = Color.green(color);
+//        int g1 = Color.green(colo r);
 //        int b1 = Color.blue(color);
 //
 //        int r2 = Color.red(pixel);

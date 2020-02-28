@@ -34,3 +34,7 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+app/src/main/java/me/nakukibo/colorbynumber/OpenCvActivity.java
+app/src/main/res/layout/activity_open_cv.xml
+app/src/main/res/layout/content_open_cv.xml
+app/src/main/java/me/nakukibo/colorbynumber/ColorBlobDetector.java
