@@ -17,16 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.util.Locale;
-
 
 public class ImporterActivity extends Activity {
-    private static final long ERROR_HARDWARE = 0;
-    private static final long ERROR_PERMISSIONS = 1;
-    private static final long ERROR_FAIL_TO_RESOLVE_ACTIVITY = 2;
-    private static final long ERROR_RETRIEVES_NULL = 3;
-    private static final long ERROR_RETRIEVE_FAIL = 4;
-
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
     private static final int REQUEST_CODE_CAMERA = 2;
 
@@ -54,7 +46,7 @@ public class ImporterActivity extends Activity {
                         launchCamera();
                     }
                 } else {
-                    showToastError("Cannot open camera. No hardware camera detected.", ERROR_HARDWARE);
+                    Toast.makeText(ImporterActivity.this, "Cannot open camera. No hardware camera detected.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -67,7 +59,7 @@ public class ImporterActivity extends Activity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 launchCamera();
             } else {
-                showToastError("Cannot open camera. Camera permission not given.", ERROR_PERMISSIONS);
+                Toast.makeText(this, "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -78,7 +70,7 @@ public class ImporterActivity extends Activity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_CODE_FETCH_PHOTO);
         } else {
-            showToastError("Unexpected error: failed to launch camera.", ERROR_FAIL_TO_RESOLVE_ACTIVITY);
+            Toast.makeText(this, "Unexpected error: failed to launch camera.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -91,32 +83,24 @@ public class ImporterActivity extends Activity {
         if (requestCode == REQUEST_CODE_FETCH_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             if(extras == null){
-                showToastError(ERROR_NULL, ERROR_RETRIEVES_NULL);
+                Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
                 return;
             }
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             if(imageBitmap == null){
-                showToastError(ERROR_NULL, ERROR_RETRIEVES_NULL);
+                Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
                 return;
             }
 
             BitmapConversion.convert(imageBitmap);
             imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
         } else {
-            showToastError(ERROR_NULL, ERROR_RETRIEVE_FAIL);
+            Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
         }
     }
 
     private boolean hasCameraHardware(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-    }
-
-    void showToastError(String errorMessage, final long ERROR_CODE){
-        Toast.makeText(
-                this,
-                String.format(Locale.US, "%s Error code: %d", errorMessage, ERROR_CODE),
-                Toast.LENGTH_LONG)
-                .show();
     }
 }
