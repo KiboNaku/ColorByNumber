@@ -22,10 +22,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ImporterActivity.class);
         startActivity(intent);
     }
-
-    public void launchOpenCv(View view){
-        Intent intent = new Intent(this, OpenCvActivity.class);
-        startActivity(intent);
-    }
-
 }

@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Locale;
 
+
 public class ImporterActivity extends Activity {
     private static final long ERROR_HARDWARE = 0;
     private static final long ERROR_PERMISSIONS = 1;
@@ -100,23 +101,8 @@ public class ImporterActivity extends Activity {
                 return;
             }
 
-//            Mat rgba = new Mat();
-//            Utils.bitmapToMat(imageBitmap, rgba);
-//
-//            Mat edges = new Mat(rgba.size(), CvType.CV_8UC1);
-//            Imgproc.cvtColor(rgba, edges, Imgproc.COLOR_RGB2GRAY, 4);
-//            Imgproc.Canny(edges, edges, 80, 100);
-
-            // Don't do that at home or work it's for visualization purpose.
-//            BitmapHelper.showBitmap(this, bitmap, imageView);
-//            Bitmap resultBitmap = Bitmap.createBitmap(edges.cols(), edges.rows(), Bitmap.Config.ARGB_8888);
-//            Utils.matToBitmap(edges, resultBitmap);
-//            BitmapHelper.showBitmap(this, resultBitmap, detectEdgesImageView);
-
-//            imageViewRetrievedPhoto.setImageBitmap(resultBitmap);
-
-//            BitmapConversion.convert(imageBitmap);
-//            imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
+            BitmapConversion.convert(imageBitmap);
+            imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
         } else {
             showToastError(ERROR_NULL, ERROR_RETRIEVE_FAIL);
         }
