@@ -5,9 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,9 +24,14 @@ import androidx.core.content.ContextCompat;
 
 public class ImporterActivity extends Activity {
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
-    private static final int REQUEST_CODE_CAMERA = 2;
+    private static final int REQUEST_CODE_CAMERA = 1;
+
+    private static final int REQUEST_CODE_OPEN_GALLERY = 2;
+    private static final int REQUEST_CODE_READ_EXT = 2;
 
     private ImageView imageViewRetrievedPhoto;
+
+    //TODO: fix the order of requesting permissions
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,27 @@ public class ImporterActivity extends Activity {
                 }
             }
         });
+
+        Button buttonLaunchGallery = findViewById(R.id.button_launch_gallery);
+        buttonLaunchGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ImporterActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_CODE_READ_EXT);
+                } else {
+                    launchGallery();
+                }
+            }
+        });
+    }
+
+    private void launchGallery() {
+        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, REQUEST_CODE_OPEN_GALLERY);
     }
 
     @Override
@@ -60,6 +90,12 @@ public class ImporterActivity extends Activity {
                 launchCamera();
             } else {
                 Toast.makeText(this, "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == REQUEST_CODE_READ_EXT) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                Toast.makeText(this, "Cannot open gallery. Camera permission not given.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -74,29 +110,49 @@ public class ImporterActivity extends Activity {
         }
     }
 
+    private static final String TAG = "ImporterActivity";
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
+        if(resultCode == RESULT_OK){
+            if (requestCode == REQUEST_CODE_FETCH_PHOTO) {
 
-        if (requestCode == REQUEST_CODE_FETCH_PHOTO && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            if(extras == null){
-                Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
-                return;
+                final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
+
+                Bundle extras = data.getExtras();
+                if(extras == null){
+                    Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if(imageBitmap == null){
+                    Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                BitmapConversion.convert(imageBitmap);
+                imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
+            } else if(requestCode == REQUEST_CODE_OPEN_GALLERY) {
+
+                Log.d(TAG, "onActivityResult: fetching photo from gallery");
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                Bitmap imageBitmap = BitmapFactory.decodeFile(picturePath).copy(Bitmap.Config.ARGB_8888,true);
+                BitmapConversion.convert(imageBitmap);
+                imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
             }
-
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            if(imageBitmap == null){
-                Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            BitmapConversion.convert(imageBitmap);
-            imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
         } else {
-            Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
         }
     }
 
