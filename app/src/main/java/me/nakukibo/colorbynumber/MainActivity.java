@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,6 +19,9 @@ import java.io.FileNotFoundException;
 //TODO: reduce the minimum sdk required
 
 public class MainActivity extends AppCompatActivity {
+
+    private String fileName = null;
+    public static final String FILE_NAME = "filename";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,17 +37,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchColoring(View view){
+        Intent intent = new Intent(this, ColoringActivity.class);
+
+        intent.putExtra(FILE_NAME, fileName);
+        startActivity(intent);
+    }
+
     // temporary load code
-    private void loadImageFromStorage()
-    {
+    private void loadImageFromStorage() {
 
         try {
-
             ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            File f=new File(directory, "profile.jpg");
+            File directory = cw.getDir("images", Context.MODE_PRIVATE);
+
+            File[] files = directory.listFiles();
+            Log.d("Files", "Size: "+ files.length);
+            for (int i = 0; i < files.length; i++)
+            {
+                Log.d("Files", "FileName:" + files[i].getName());
+            }
+
+            fileName = files[0].getName();
+
+            File f = new File(directory, fileName);
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ImageView img=(ImageView)findViewById(R.id.image_view_loaded);
+            ImageView img = findViewById(R.id.image_view_loaded);
             img.setImageBitmap(b);
         }
         catch (FileNotFoundException e)
@@ -51,5 +70,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadImageFromStorage();
     }
 }

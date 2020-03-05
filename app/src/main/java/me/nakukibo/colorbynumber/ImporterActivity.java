@@ -25,6 +25,9 @@ import androidx.core.content.ContextCompat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class ImporterActivity extends Activity {
@@ -169,27 +172,28 @@ public class ImporterActivity extends Activity {
 
     //temporary save code
 
-    private String saveToInternalStorage(Bitmap bitmapImage){
+    private void saveToInternalStorage(Bitmap bitmapImage){
+
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+        File directory = cw.getDir("images", Context.MODE_PRIVATE);
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.US).format(new Date());
+        String imageFileName = "Coloring_" + timeStamp;
+
+        File imagePath = new File(directory, imageFileName + ".jpg");
 
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
+            fos = new FileOutputStream(imagePath);
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                fos.close();
+                if(fos != null) fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return directory.getAbsolutePath();
     }
 }
