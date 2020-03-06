@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,7 @@ public class ColoringActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coloring);
 
@@ -25,7 +27,7 @@ public class ColoringActivity extends AppCompatActivity {
         File f = new File(directory, fileName);
 
         try {
-            ((ZoomableImage) findViewById(R.id.image_coloring)).setImageBitmap(BitmapFactory.decodeStream(new FileInputStream(f)));
+            ((ImageView) findViewById(R.id.image_coloring)).setImageBitmap(BitmapFactory.decodeStream(new FileInputStream(f)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

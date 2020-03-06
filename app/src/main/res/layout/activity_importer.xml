@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ImporterActivity">
 
-    <me.nakukibo.colorbynumber.ZoomableImage
+    <ImageView
         android:id="@+id/image_view_retrieved"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -43,5 +43,14 @@
         app:layout_constraintEnd_toStartOf="@+id/button_launch_camera"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_launch_camera" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_load_image"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

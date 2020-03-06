@@ -7,17 +7,20 @@ import androidx.core.graphics.ColorUtils;
 import java.util.LinkedList;
 
 class BitmapConversion {
-    
-    static void convert(Bitmap photo){
-        boolean[][] changedColor = new boolean[photo.getHeight()][photo.getWidth()];
 
-        while(getNextFalseInArray(changedColor) != null){
-            setToAverage(photo, getNextFalseInArray(changedColor), changedColor);
+    static void convertToColorGroupings(Bitmap photo){
+
+        boolean[][] changedColor = new boolean[photo.getHeight()][photo.getWidth()];
+        PixelCoordinates pixelCoordinates;
+
+        while((pixelCoordinates = getNextFalseInArray(changedColor)) != null){
+            setToFirst(photo, pixelCoordinates, changedColor);
         }
 
     }
 
-    private static void setToAverage(Bitmap photo, PixelCoordinates nextFalse, boolean[][] changedColor) {
+    private static void setToFirst(Bitmap photo, PixelCoordinates nextFalse, boolean[][] changedColor) {
+
         int pixel = photo.getPixel(nextFalse.x, nextFalse.y);
 
         changedColor[nextFalse.y][nextFalse.x] = true;
@@ -62,39 +65,31 @@ class BitmapConversion {
 
     // TODO: improve color comparison algorithm
     private static boolean similarColors(int color, int pixel) {
-//        final int MAX_DISTANCE = 4000; //for rgb search
+
         final double MAX_DISTANCE = 180.0; //lab search
 
         double[] hsl1 = new double[3];
         double[] hsl2 = new double[3];
+
         ColorUtils.colorToLAB(color, hsl1);
         ColorUtils.colorToLAB(pixel, hsl2);
 
-//        Log.d(TAG, "similarColors: hsl1 = " + hsl1[0] +", "+ hsl1[1] +", "+ hsl1[2]);
-//        Log.d(TAG, "similarColors: hsl2 = " + hsl2[0] +", "+ hsl2[1] +", "+ hsl2[2]);
-
-//        int r1 = Color.red(color);
-//        int g1 = Color.green(colo r);
-//        int b1 = Color.blue(color);
-//
-//        int r2 = Color.red(pixel);
-//        int g2 = Color.green(pixel);
-//        int b2 = Color.blue(pixel);
-
-//        return (r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2) < MAX_DISTANCE;
         return (hsl1[0] - hsl2[0])*(hsl1[0] - hsl2[0]) + (hsl1[1] - hsl2[1])*(hsl1[1] - hsl2[1]) + (hsl1[2] - hsl2[2])*(hsl1[2] - hsl2[2]) <= MAX_DISTANCE;
     }
 
     private static PixelCoordinates getNextFalseInArray(boolean[][] booleanArray){
+
         for(int i=0; i<booleanArray.length; i++){
             for(int j=0; j<booleanArray[0].length; j++){
                 if(!booleanArray[i][j]) return new PixelCoordinates(j, i);
             }
         }
+
         return null;
     }
 
     private static class PixelCoordinates {
+
         private int x;
         private int y;
 

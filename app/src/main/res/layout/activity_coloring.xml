@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ColoringActivity">
 
-    <me.nakukibo.colorbynumber.ZoomableImage
+    <ImageView
         android:id="@+id/image_coloring"
         android:layout_width="0dp"
         android:layout_height="0dp"

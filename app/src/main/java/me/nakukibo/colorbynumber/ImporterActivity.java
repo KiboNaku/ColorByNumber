@@ -141,8 +141,16 @@ public class ImporterActivity extends Activity {
                     return;
                 }
 
-                BitmapConversion.convert(imageBitmap);
-                imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
+                findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
+
+                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
+                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+                    @Override
+                    public void onComplete() {
+                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                    }
+                });
             } else if(requestCode == REQUEST_CODE_OPEN_GALLERY) {
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
@@ -155,11 +163,20 @@ public class ImporterActivity extends Activity {
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
 
-                Bitmap imageBitmap = BitmapFactory.decodeFile(picturePath).copy(Bitmap.Config.ARGB_8888,true);
-                BitmapConversion.convert(imageBitmap);
-                imageViewRetrievedPhoto.setImageBitmap(imageBitmap);
+                Bitmap imageBitmap = BitmapFactory.decodeFile(picturePath);
 
-                saveToInternalStorage(imageBitmap);
+                findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
+
+                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
+                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+                    @Override
+                    public void onComplete() {
+                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+                        saveToInternalStorage(customBitmap.getColored());
+                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                    }
+                });
+
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
