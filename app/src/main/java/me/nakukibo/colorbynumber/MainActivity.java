@@ -1,20 +1,10 @@
 package me.nakukibo.colorbynumber;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 //TODO: reduce the minimum sdk required
 
@@ -46,29 +36,29 @@ public class MainActivity extends AppCompatActivity {
 
     // temporary load code
     private void loadImageFromStorage() {
-
-        try {
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File directory = cw.getDir("images", Context.MODE_PRIVATE);
-
-            File[] files = directory.listFiles();
-            Log.d("Files", "Size: "+ files.length);
-            for (int i = 0; i < files.length; i++)
-            {
-                Log.d("Files", "FileName:" + files[i].getName());
-            }
-
-            fileName = files[0].getName();
-
-            File f = new File(directory, fileName);
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ImageView img = findViewById(R.id.image_view_loaded);
-            img.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+//            File directory = cw.getDir("images", Context.MODE_PRIVATE);
+//
+//            File[] files = directory.listFiles();
+//            Log.d("Files", "Size: "+ files.length);
+//            for (int i = 0; i < files.length; i++)
+//            {
+//                Log.d("Files", "FileName:" + files[i].getName());
+//            }
+//
+////            fileName = files[0].getName();
+//
+//            File f = new File(directory, fileName);
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            ImageView img = findViewById(R.id.image_view_loaded);
+//            img.setImageBitmap(b);
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
 
     }
 

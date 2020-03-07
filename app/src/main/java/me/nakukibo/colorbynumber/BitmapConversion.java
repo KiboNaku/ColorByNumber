@@ -1,6 +1,7 @@
 package me.nakukibo.colorbynumber;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import androidx.core.graphics.ColorUtils;
 
@@ -8,20 +9,25 @@ import java.util.LinkedList;
 
 class BitmapConversion {
 
-    static void convertToColorGroupings(Bitmap photo){
+    
+    static Bitmap[] makeBitmaps(Bitmap original){
 
-        boolean[][] changedColor = new boolean[photo.getHeight()][photo.getWidth()];
+        Bitmap colorGrouped = original.copy(original.getConfig(), true);
+        Bitmap colorBlank = original.copy(original.getConfig(), true);
+
+        boolean[][] changedColor = new boolean[original.getHeight()][original.getWidth()];
         PixelCoordinates pixelCoordinates;
 
         while((pixelCoordinates = getNextFalseInArray(changedColor)) != null){
-            setToFirst(photo, pixelCoordinates, changedColor);
+            setToFirst(original, colorGrouped, colorBlank, pixelCoordinates, changedColor);
         }
 
+        return new Bitmap[]{original, colorGrouped, colorBlank};
     }
 
-    private static void setToFirst(Bitmap photo, PixelCoordinates nextFalse, boolean[][] changedColor) {
+    private static void setToFirst(Bitmap original, Bitmap colorGrouped, Bitmap colorBlank, PixelCoordinates nextFalse, boolean[][] changedColor) {
 
-        int pixel = photo.getPixel(nextFalse.x, nextFalse.y);
+        int pixel = original.getPixel(nextFalse.x, nextFalse.y);
 
         changedColor[nextFalse.y][nextFalse.x] = true;
 
@@ -33,17 +39,21 @@ class BitmapConversion {
 
         while(!surColors.isEmpty()){
             PixelCoordinates pixelCoordinates = surColors.pop();
-            pushNeighbors(photo, surColors, changedColors, pixelCoordinates, pixel, changedColor);
+            int neighbors = pushNeighbors(original, surColors, changedColors, pixelCoordinates, pixel, changedColor);
+            colorBlank.setPixel(pixelCoordinates.x, pixelCoordinates.y, neighbors >= 9 ? Color.WHITE : Color.BLACK);
         }
 
         while(!changedColors.isEmpty()){
             PixelCoordinates pixelCoordinates = changedColors.pop();
-            photo.setPixel(pixelCoordinates.x, pixelCoordinates.y, pixel);
+            colorGrouped.setPixel(pixelCoordinates.x, pixelCoordinates.y, pixel);
         }
     }
 
-    private static void pushNeighbors(Bitmap photo, LinkedList<PixelCoordinates> surColors, LinkedList<PixelCoordinates> changed,
+    private static int pushNeighbors(Bitmap photo, LinkedList<PixelCoordinates> surColors, LinkedList<PixelCoordinates> changed,
                                       PixelCoordinates curPixel,  int color, boolean[][] changedColor) {
+
+        int neighbors = 0;
+
         int minX = curPixel.x > 0 ? curPixel.x - 1 : curPixel.x;
         int maxX = curPixel.x < changedColor[0].length-1 ? curPixel.x + 1 : curPixel.x;
 
@@ -53,14 +63,20 @@ class BitmapConversion {
         for(int i=minY; i<=maxY; i++){
             for(int j=minX; j<=maxX; j++){
 
-                if(!changedColor[i][j] && similarColors(color, photo.getPixel(j, i))) {
-                    changedColor[i][j] = true;
-                    surColors.add(new PixelCoordinates(j, i));
-                    changed.add(new PixelCoordinates(j, i));
-                }
+                if(similarColors(color, photo.getPixel(j, i))){
 
+                    if(!changedColor[i][j]) {
+                        changedColor[i][j] = true;
+                        surColors.add(new PixelCoordinates(j, i));
+                        changed.add(new PixelCoordinates(j, i));
+                    }
+
+                    neighbors ++;
+                }
             }
         }
+
+        return neighbors;
     }
 
     // TODO: improve color comparison algorithm

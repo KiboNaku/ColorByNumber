@@ -1,31 +1,40 @@
 package me.nakukibo.colorbynumber;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.util.Log;
 
-public class CustomBitmap {
+public class CustomBitmap extends AsyncTask <Void, Void, Void> {
 
     private Bitmap original;
     private Bitmap colored;
-    private Bitmap unfilled;
+    private Bitmap blank;
+    private OnCompleteListener onCompleteListener;
 
-    public CustomBitmap(Bitmap bitmap){
+    public CustomBitmap(Bitmap bitmap, OnCompleteListener onCompleteListener){
         this.original = bitmap;
         this.colored = null;
-        this.unfilled = null;
+        this.blank = null;
+        this.onCompleteListener = onCompleteListener;
     }
 
-    public void convert(final OnCompleteListener onCompleteListener){
+    @Override
+    protected Void doInBackground(Void... voids) {
+        Bitmap[] bitmaps = BitmapConversion.makeBitmaps(original);
 
-        Thread conversion = new Thread(new Runnable() {
-            public void run() {
-                colored = original.copy(Bitmap.Config.ARGB_8888,true);
-                BitmapConversion.convertToColorGroupings(colored);
-                onCompleteListener.onComplete();
-            }
-        });
+        this.colored = bitmaps[1];
+        this.blank = bitmaps[2];
 
-        conversion.start();
+        return null;
+    }
 
+    private static final String TAG = "CustomBitmap";
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        Log.d(TAG, "onPostExecute: finished executing");
+        if(onCompleteListener != null) onCompleteListener.onComplete();
     }
 
     public Bitmap getOriginal() {
@@ -37,9 +46,10 @@ public class CustomBitmap {
     }
 
 
-    public Bitmap getUnfilled() {
-        return unfilled;
+    public Bitmap getBlank() {
+        return blank;
     }
+
 
     interface OnCompleteListener {
         void onComplete();

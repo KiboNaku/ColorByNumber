@@ -37,6 +37,7 @@ public class ImporterActivity extends Activity {
     private static final int REQUEST_CODE_OPEN_GALLERY = 2;
     private static final int REQUEST_CODE_READ_EXT = 2;
 
+    private CustomBitmap customBitmap;
     private ImageView imageViewRetrievedPhoto;
 
     //TODO: fix the order of requesting permissions
@@ -143,14 +144,14 @@ public class ImporterActivity extends Activity {
 
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
-                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
-                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
-                    @Override
-                    public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
-                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
-                    }
-                });
+//                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
+//                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+//                    @Override
+//                    public void onComplete() {
+//                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+//                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+//                    }
+//                });
             } else if(requestCode == REQUEST_CODE_OPEN_GALLERY) {
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
@@ -167,16 +168,15 @@ public class ImporterActivity extends Activity {
 
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
-                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
-                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
                     @Override
                     public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getBlank());
                         saveToInternalStorage(customBitmap.getColored());
                         findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
                     }
                 });
-
+                customBitmap.execute();
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
