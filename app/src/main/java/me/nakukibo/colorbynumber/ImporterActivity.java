@@ -38,6 +38,7 @@ public class ImporterActivity extends Activity {
     private static final int REQUEST_CODE_READ_EXT = 2;
 
     private ImageView imageViewRetrievedPhoto;
+    private CustomBitmap customBitmap;
 
     //TODO: fix the order of requesting permissions
 
@@ -143,14 +144,14 @@ public class ImporterActivity extends Activity {
 
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
-                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
-                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
-                    @Override
-                    public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
-                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
-                    }
-                });
+//                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
+//                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+//                    @Override
+//                    public void onComplete() {
+//                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+//                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+//                    }
+//                });
             } else if(requestCode == REQUEST_CODE_OPEN_GALLERY) {
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
@@ -167,20 +168,22 @@ public class ImporterActivity extends Activity {
 
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
-                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
-                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
+                customBitmap = CustomBitmap.makeBitmap(imageBitmap, new CustomBitmap.OnSuccessListener() {
                     @Override
-                    public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
-                        saveToInternalStorage(customBitmap.getColored());
-                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                    public void onSuccess() {
+                        setImage();
                     }
                 });
-
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void setImage(){
+        ((ImageView) findViewById(R.id.image_view_retrieved)).setImageBitmap(customBitmap.getUnColoredBitmap());
+//                        saveToInternalStorage(customBitmap.getUnColoredBitmap());
+        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
     }
 
     private boolean hasCameraHardware(Context context) {
