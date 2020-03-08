@@ -53,4 +53,99 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <HorizontalScrollView
+        android:id="@+id/scroll_colors"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_dark"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/image_view_retrieved"
+        app:layout_constraintEnd_toEndOf="@+id/image_view_retrieved"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/layout_colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color1"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color2"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color3"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color4"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color5"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color6"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color7"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color8"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+            <me.nakukibo.colorbynumber.ColorView
+                android:id="@+id/color9"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:onClick="selectColor" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

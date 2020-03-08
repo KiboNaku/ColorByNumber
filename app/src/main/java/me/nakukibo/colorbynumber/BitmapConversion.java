@@ -5,30 +5,38 @@ import android.graphics.Color;
 
 import androidx.core.graphics.ColorUtils;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 class BitmapConversion {
 
     
-    static Bitmap[] makeBitmaps(Bitmap original){
+    static void makeCustomBitmap(Bitmap original, CustomBitmap customBitmap){
 
         Bitmap colorGrouped = original.copy(original.getConfig(), true);
         Bitmap colorBlank = original.copy(original.getConfig(), true);
+        Set<Integer> uniqueColors = new HashSet<>();
 
         boolean[][] changedColor = new boolean[original.getHeight()][original.getWidth()];
         PixelCoordinates pixelCoordinates;
 
         while((pixelCoordinates = getNextFalseInArray(changedColor)) != null){
-            setToFirst(original, colorGrouped, colorBlank, pixelCoordinates, changedColor);
+            setBitmaps(original, colorGrouped, colorBlank, uniqueColors, pixelCoordinates, changedColor);
         }
 
-        return new Bitmap[]{original, colorGrouped, colorBlank};
+        customBitmap.setOriginal(original);
+        customBitmap.setColored(colorGrouped);
+        customBitmap.setBlank(colorBlank);
+        customBitmap.setUniqueColors(uniqueColors);
     }
 
-    private static void setToFirst(Bitmap original, Bitmap colorGrouped, Bitmap colorBlank, PixelCoordinates nextFalse, boolean[][] changedColor) {
+    private static void setBitmaps(Bitmap original, Bitmap colorGrouped, Bitmap colorBlank, Set<Integer> uniqueColors,
+                                   PixelCoordinates nextFalse, boolean[][] changedColor) {
 
         int pixel = original.getPixel(nextFalse.x, nextFalse.y);
 
+        uniqueColors.add(pixel);
         changedColor[nextFalse.y][nextFalse.x] = true;
 
         LinkedList<PixelCoordinates> surColors = new LinkedList<>();

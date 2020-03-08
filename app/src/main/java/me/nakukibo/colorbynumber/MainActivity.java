@@ -1,10 +1,15 @@
 package me.nakukibo.colorbynumber;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
 
 //TODO: reduce the minimum sdk required
 
@@ -36,20 +41,25 @@ public class MainActivity extends AppCompatActivity {
 
     // temporary load code
     private void loadImageFromStorage() {
-//
+
 //        try {
-//            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-//            File directory = cw.getDir("images", Context.MODE_PRIVATE);
-//
-//            File[] files = directory.listFiles();
-//            Log.d("Files", "Size: "+ files.length);
-//            for (int i = 0; i < files.length; i++)
-//            {
-//                Log.d("Files", "FileName:" + files[i].getName());
-//            }
-//
-////            fileName = files[0].getName();
-//
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File directory = cw.getDir("images", Context.MODE_PRIVATE);
+
+            File[] files = directory.listFiles();
+
+            if(files == null) return;
+
+            Log.d("Files", "Size: "+ files.length);
+            for (int i = 0; i < files.length; i++)
+            {
+                Log.d("Files", "FileName:" + files[i].getName());
+//                File file = new File(directory, files[i].getName());
+//                file.delete();
+            }
+
+//            fileName = files[0].getName();
+
 //            File f = new File(directory, fileName);
 //            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
 //            ImageView img = findViewById(R.id.image_view_loaded);

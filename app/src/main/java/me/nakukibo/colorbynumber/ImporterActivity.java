@@ -9,12 +9,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,8 +27,11 @@ import androidx.core.content.ContextCompat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -157,7 +162,7 @@ public class ImporterActivity extends Activity {
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                final Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -172,8 +177,38 @@ public class ImporterActivity extends Activity {
                     @Override
                     public void onComplete() {
                         imageViewRetrievedPhoto.setImageBitmap(customBitmap.getBlank());
-                        saveToInternalStorage(customBitmap.getColored());
+//                        saveToInternalStorage(customBitmap);
                         findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+
+                        findViewById(R.id.layout_colors).setVisibility(View.VISIBLE);
+                        HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
+
+                        List<Integer> uniqueColors = new ArrayList<>(customBitmap.getUniqueColors());
+
+                        List<Integer> viewList = new ArrayList<>();
+                        viewList.add(R.id.color);
+                        viewList.add(R.id.color1);
+                        viewList.add(R.id.color2);
+                        viewList.add(R.id.color3);
+                        viewList.add(R.id.color4);
+                        viewList.add(R.id.color5);
+                        viewList.add(R.id.color6);
+                        viewList.add(R.id.color7);
+                        viewList.add(R.id.color8);
+                        viewList.add(R.id.color9);
+
+                        for(int i=0; i<Math.min(uniqueColors.size(), 10); i++){
+                            int color = uniqueColors.get(i);
+                            Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+                            ((ColorView) findViewById(viewList.get(i))).setColor(color);
+                        }
+
+//                        for(Integer color: customBitmap.getUniqueColors()){
+//                            Log.d(TAG, "onComplete: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+//                            View colorView = new View(ImporterActivity.this);
+//                            colorView.setBackgroundColor(color);
+//                            colorsScroll.addView(colorView, 200, 200);
+//                        }
                     }
                 });
                 customBitmap.execute();
@@ -183,13 +218,63 @@ public class ImporterActivity extends Activity {
         }
     }
 
+    public void selectColor(View view){
+        int color = ((ColorView) view).getColor();
+        Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+    }
+
     private boolean hasCameraHardware(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     //temporary save code
 
-    private void saveToInternalStorage(Bitmap bitmapImage){
+    private void saveToInternalStorage(CustomBitmap customBitmap){
+
+
+//
+//        try {
+//            FileOutputStream fOut = openFileOutput("data", Context.);
+//            fOut.write(newTask.getTitle().getBytes());
+//            fOut.write(newTask.getYear());
+//            fOut.write(newTask.getMonth());
+//            fOut.write(newTask.getDay());
+//            fOut.write(newTask.getHour());
+//            fOut.write(newTask.getMinute());
+//            fOut.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        public void readData(){
+//            FileInputStream fis = null;
+//            try {
+//                fis = new FileInputStream("data");
+//                System.out.println("Total file size to read (in bytes) : "
+//                        + fis.available());
+//                int content;
+//                while ((content = fis.read()) != -1) {
+//                    // convert to char and display it
+//                    System.out.print((char) content);
+//                }
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                try {
+//                    if (fis != null)
+//                        fis.close();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        }
+
+//        Saving (w/o exception handling code):
+
+        Log.d(TAG, "saveToInternalStorage: attempting to save");
 
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("images", Context.MODE_PRIVATE);
@@ -197,20 +282,103 @@ public class ImporterActivity extends Activity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.US).format(new Date());
         String imageFileName = "Coloring_" + timeStamp;
 
-        File imagePath = new File(directory, imageFileName + ".jpg");
+        File imagePath = new File(directory, imageFileName + ".txt");
 
         FileOutputStream fos = null;
+        ObjectOutputStream os = null;
+
         try {
-            fos = new FileOutputStream(imagePath);
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG, "saveToInternalStorage: fileName = " + imagePath.getAbsolutePath());
+
+            fos = openFileOutput(imageFileName, Context.MODE_PRIVATE);
+
+            os = new ObjectOutputStream(fos);
+            os.writeObject(this);
+
+        } catch (IOException io) {
+            io.printStackTrace();
         } finally {
-            try {
+            try{
+                if(os != null) os.close();
                 if(fos != null) fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException io) {
+                io.printStackTrace();
             }
         }
+
+//        Loading (w/o exception handling code):
+//
+//        FileInputStream fis = context.openFileInput(fileName);
+//        ObjectInputStream is = new ObjectInputStream(fis);
+//        SimpleClass simpleClass = (SimpleClass) is.readObject();
+//        is.close();
+//        fis.close();
+
     }
+
+//    /// <summary>
+//    /// Serializes an object.
+//    /// </summary>
+//    /// <typeparam name="T"></typeparam>
+//    /// <param name="serializableObject"></param>
+//    /// <param name="fileName"></param>
+//    public void SerializeObject<T>(T serializableObject, string fileName)
+//    {
+//        if (serializableObject == null) { return; }
+//
+//        try
+//        {
+//            XmlDocument xmlDocument = new XmlDocument();
+//            XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
+//            using (MemoryStream stream = new MemoryStream())
+//            {
+//                serializer.Serialize(stream, serializableObject);
+//                stream.Position = 0;
+//                xmlDocument.Load(stream);
+//                xmlDocument.Save(fileName);
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            //Log exception here
+//        }
+//    }
+//
+//
+//    /// <summary>
+//    /// Deserializes an xml file into an object list
+//    /// </summary>
+//    /// <typeparam name="T"></typeparam>
+//    /// <param name="fileName"></param>
+//    /// <returns></returns>
+//    public T DeSerializeObject<T>(string fileName)
+//    {
+//        if (string.IsNullOrEmpty(fileName)) { return default(T); }
+//
+//        T objectOut = default(T);
+//
+//        try
+//        {
+//            XmlDocument xmlDocument = new XmlDocument();
+//            xmlDocument.Load(fileName);
+//            string xmlString = xmlDocument.OuterXml;
+//
+//            using (StringReader read = new StringReader(xmlString))
+//            {
+//                Type outType = typeof(T);
+//
+//                XmlSerializer serializer = new XmlSerializer(outType);
+//                using (XmlReader reader = new XmlTextReader(read))
+//                {
+//                    objectOut = (T)serializer.Deserialize(reader);
+//                }
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            //Log exception here
+//        }
+//
+//        return objectOut;
+//    }
 }
