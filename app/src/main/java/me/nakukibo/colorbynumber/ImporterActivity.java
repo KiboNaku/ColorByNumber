@@ -31,6 +31,7 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,6 +45,11 @@ public class ImporterActivity extends Activity {
 
     private CustomBitmap customBitmap;
     private ImageView imageViewRetrievedPhoto;
+    private Bitmap uncolored = null;
+    private Integer color = null;
+    private LinkedList<Integer> colors = null;
+    private List<Integer> viewList = null;
+    private int viewIndex = -1;
 
     //TODO: fix the order of requesting permissions
 
@@ -183,9 +189,9 @@ public class ImporterActivity extends Activity {
                         findViewById(R.id.layout_colors).setVisibility(View.VISIBLE);
                         HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
 
-                        List<Integer> uniqueColors = new ArrayList<>(customBitmap.getUniqueColors());
+                        colors = new LinkedList<>(customBitmap.getUniqueColors());
 
-                        List<Integer> viewList = new ArrayList<>();
+                        viewList = new ArrayList<>();
                         viewList.add(R.id.color);
                         viewList.add(R.id.color1);
                         viewList.add(R.id.color2);
@@ -197,8 +203,8 @@ public class ImporterActivity extends Activity {
                         viewList.add(R.id.color8);
                         viewList.add(R.id.color9);
 
-                        for(int i=0; i<Math.min(uniqueColors.size(), 10); i++){
-                            int color = uniqueColors.get(i);
+                        for(int i=0; i<Math.min(colors.size(), 10); i++){
+                            int color = colors.pop();
                             Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
                             ((ColorView) findViewById(viewList.get(i))).setColor(color);
                         }
@@ -218,8 +224,55 @@ public class ImporterActivity extends Activity {
         }
     }
 
+    public void paintColor(View view){
+
+
+        if(customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0) return;
+
+        Log.d(TAG, "paintColor: color is painting");
+        Log.d(TAG, "paintColor: painting color " + "(" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+
+        
+        Bitmap colored = customBitmap.getColored();
+        Bitmap blank = customBitmap.getBlank();
+
+        for(int i=0; i<blank.getHeight(); i++){
+            for(int j=0; j<blank.getWidth(); j++){
+                if(colored.getPixel(j, i) == color){
+                    blank.setPixel(j, i, color);
+                }
+            }
+        }
+
+        ColorView colorView =  ((ColorView) findViewById(viewList.get(viewIndex)));
+
+        if(colors.size() > 0) colorView.setColor(colors.pop());
+        else colorView.setVisibility(View.GONE);
+
+        color = -1;
+        viewIndex = -1;
+
+        ((ImageView) findViewById(R.id.image_view_retrieved)).setImageBitmap(customBitmap.getBlank());
+
+    }
+
     public void selectColor(View view){
-        int color = ((ColorView) view).getColor();
+
+        int id = view.getId();
+        boolean foundView = false;
+
+        Log.d(TAG, "selectColor: colorview size=" + viewList.size());
+
+        for(int i=0; i<viewList.size(); i++){
+            if(id == viewList.get(i)) {
+                viewIndex = i;
+                foundView = true;
+            }
+        }
+        
+        if(!foundView) Log.d(TAG, "selectColor: cannot find view");
+
+        color = ((ColorView) view).getColor();
         Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
     }
 
