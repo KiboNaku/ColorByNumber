@@ -35,10 +35,6 @@ public class MColor {
         return color;
     }
 
-    public void setColor(Integer color) {
-        this.color = color;
-    }
-
     static class MColorComparator implements Comparator<MColor> {
         @Override
         public int compare(MColor o1, MColor o2) {

@@ -4,16 +4,15 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.Set;
-
 public class CustomBitmap extends AsyncTask <Void, Void, Void> {
 
     private Bitmap original;
     private Bitmap colored;
     private Bitmap blank;
-    private Set<Integer> uniqueColors;
+    private ColorSet uniqueColors;
 
     private OnCompleteListener onCompleteListener;
+    private static final String TAG = "CustomBitmap";
 
     public CustomBitmap(Bitmap bitmap, OnCompleteListener onCompleteListener){
         this.original = bitmap;
@@ -29,7 +28,6 @@ public class CustomBitmap extends AsyncTask <Void, Void, Void> {
         return null;
     }
 
-    private static final String TAG = "CustomBitmap";
 
     @Override
     protected void onPostExecute(Void aVoid) {
@@ -62,11 +60,11 @@ public class CustomBitmap extends AsyncTask <Void, Void, Void> {
         this.blank = blank;
     }
 
-    public Set<Integer> getUniqueColors() {
+    public ColorSet getUniqueColors() {
         return uniqueColors;
     }
 
-    public void setUniqueColors(Set<Integer> uniqueColors) {
+    public void setUniqueColors(ColorSet uniqueColors) {
         this.uniqueColors = uniqueColors;
     }
 
