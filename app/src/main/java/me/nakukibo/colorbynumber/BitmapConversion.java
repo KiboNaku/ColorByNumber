@@ -13,11 +13,7 @@ class BitmapConversion {
 
     static void makeCustomBitmap(Bitmap original, CustomBitmap customBitmap){
 
-        ColorSet uniqueColors = new ColorSet();
-        addAllColors(uniqueColors, original);
-
-        Log.d(TAG, "makeCustomBitmap: number of colors before = " + uniqueColors.size());
-        uniqueColors.cleanse();
+        ColorSet uniqueColors = new ColorSet(original);
 
         Log.d(TAG, "makeCustomBitmap: number of colors after = " + uniqueColors.size());
 
@@ -36,16 +32,6 @@ class BitmapConversion {
         customBitmap.setColored(colorGrouped);
         customBitmap.setBlank(colorBlank);
         customBitmap.setUniqueColors(uniqueColors);
-    }
-
-    private static void addAllColors(ColorSet uniqueColors, Bitmap original) {
-
-        for(int i=0; i<original.getHeight(); i++){
-            for(int j=0; j<original.getWidth(); j++){
-
-                uniqueColors.add(new MColor(original.getPixel(j, i)));
-            }
-        }
     }
 
     private static void setBitmaps(Bitmap original, Bitmap colorGrouped, Bitmap colorBlank, ColorSet uniqueColors,
