@@ -31,7 +31,6 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,7 +46,7 @@ public class ImporterActivity extends Activity {
     private ImageView imageViewRetrievedPhoto;
     private Bitmap uncolored = null;
     private Integer color = null;
-    private LinkedList<Integer> colors = null;
+    private ColorSet colors = null;
     private List<Integer> viewList = null;
     private int viewIndex = -1;
 
@@ -184,14 +183,14 @@ public class ImporterActivity extends Activity {
                 customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
                     @Override
                     public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getBlank());
+                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
 //                        saveToInternalStorage(customBitmap);
                         findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
 
                         findViewById(R.id.layout_colors).setVisibility(View.VISIBLE);
                         HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
 
-                        colors = new LinkedList<>(customBitmap.getUniqueColors());
+                        colors = customBitmap.getUniqueColors();
 
                         Log.d(TAG, "onComplete: number of colors = " + colors.size());
 
@@ -208,7 +207,7 @@ public class ImporterActivity extends Activity {
                         viewList.add(R.id.color9);
 
                         for(int i=0; i<Math.min(colors.size(), 10); i++){
-                            int color = colors.pop();
+                            int color = colors.pop().getColor();
                             Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
                             ((ColorView) findViewById(viewList.get(i))).setColor(color);
                         }
@@ -250,7 +249,7 @@ public class ImporterActivity extends Activity {
 
         ColorView colorView =  ((ColorView) findViewById(viewList.get(viewIndex)));
 
-        if(colors.size() > 0) colorView.setColor(colors.pop());
+        if(colors.size() > 0) colorView.setColor(colors.pop().getColor());
         else colorView.setVisibility(View.GONE);
 
         color = -1;

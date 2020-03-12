@@ -2,8 +2,6 @@ package me.nakukibo.colorbynumber;
 
 import androidx.core.graphics.ColorUtils;
 
-import java.util.Comparator;
-
 public class MColor {
 
     private Integer color;
@@ -33,22 +31,5 @@ public class MColor {
 
     public Integer getColor() {
         return color;
-    }
-
-    public void setColor(Integer color) {
-        this.color = color;
-    }
-
-    static class MColorComparator implements Comparator<MColor> {
-        @Override
-        public int compare(MColor o1, MColor o2) {
-            double[] lab1 = o1.getLAB();
-            double[] lab2 = o2.getLAB();
-
-            double sum1 = lab1[0] + lab1[1] + lab1[2];
-            double sum2 = lab2[0] + lab2[1] + lab2[2];
-
-            return Double.compare(sum1, sum2);
-        }
     }
 }
