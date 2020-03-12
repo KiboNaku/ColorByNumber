@@ -155,6 +155,8 @@ public class ImporterActivity extends Activity {
 
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
+                // TODO: fix camera code
+
 //                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
 //                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
 //                    @Override
@@ -190,6 +192,8 @@ public class ImporterActivity extends Activity {
                         HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
 
                         colors = new LinkedList<>(customBitmap.getUniqueColors());
+
+                        Log.d(TAG, "onComplete: number of colors = " + colors.size());
 
                         viewList = new ArrayList<>();
                         viewList.add(R.id.color);
