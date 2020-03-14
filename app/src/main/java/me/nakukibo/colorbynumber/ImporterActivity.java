@@ -35,6 +35,7 @@ import java.util.Locale;
 
 
 public class ImporterActivity extends ColoringAppCompatActivity {
+
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
     private static final int REQUEST_CODE_CAMERA = 1;
 
