@@ -7,15 +7,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.File;
 
 //TODO: reduce the minimum sdk required
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ColoringAppCompatActivity {
 
     private String fileName = null;
+    private static final String TAG = "MainActivity";
+
     public static final String FILE_NAME = "filename";
 
     @Override
@@ -25,6 +25,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         loadImageFromStorage();
 
+    }
+
+    public boolean createDirectories(){
+
+        boolean success;
+
+        success = getImagesDirectory().mkdir();
+        Log.d(TAG, "createDirectories: creating main images directory: " + (success ? "success": "fail"));
+        if(!success) return false;
+
+        success = getOriginalSubdirectory().mkdir();
+        Log.d(TAG, "createDirectories: creating sub original directory: " + (success ? "success": "fail"));
+        if(!success) return false;
+
+        success = getColoredSubdirectory().mkdir();
+        Log.d(TAG, "createDirectories: creating sub colored directory: " + (success ? "success": "fail"));
+        if(!success) return false;
+
+        success = getBlankSubdirectory().mkdir();
+        Log.d(TAG, "createDirectories: creating sub blank directory: " + (success ? "success": "fail"));
+
+        return success;
     }
 
     public void launchImporter(View view){

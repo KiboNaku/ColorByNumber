@@ -1,7 +1,6 @@
 package me.nakukibo.colorbynumber;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ImporterActivity extends Activity {
+public class ImporterActivity extends ColoringAppCompatActivity {
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
     private static final int REQUEST_CODE_CAMERA = 1;
 

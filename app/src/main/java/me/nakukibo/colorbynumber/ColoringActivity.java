@@ -6,13 +6,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class ColoringActivity extends AppCompatActivity {
+public class ColoringActivity extends ColoringAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
