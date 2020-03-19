@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
+
 //TODO: reduce the minimum sdk required
 
 public class MainActivity extends ColoringAppCompatActivity {
@@ -24,12 +26,20 @@ public class MainActivity extends ColoringAppCompatActivity {
     private String fileName = null;
     private boolean permissionsGranted = true;
 
+    //TODO: add shared preferences to timestamp most recent images
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permissionActivities();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadImageFromStorage();
     }
 
     private void permissionActivities(){
@@ -69,20 +79,30 @@ public class MainActivity extends ColoringAppCompatActivity {
 
         boolean success;
 
-        success = getImagesDirectory().mkdir();
-        Log.d(TAG, "createDirectories: creating main images directory: " + (success ? "success": "fail"));
+        success = createDirectory(getImagesDirectory(), "creating main images directory: ");
         if(!success) return false;
 
-        success = getOriginalSubdirectory().mkdir();
-        Log.d(TAG, "createDirectories: creating sub original directory: " + (success ? "success": "fail"));
+        success = createDirectory(getOriginalSubdirectory(), "creating sub original directory: ");
         if(!success) return false;
 
-        success = getColoredSubdirectory().mkdir();
-        Log.d(TAG, "createDirectories: creating sub colored directory: " + (success ? "success": "fail"));
+
+        success = createDirectory(getOriginalSubdirectory(), "creating sub colored directory: ");
         if(!success) return false;
 
-        success = getBlankSubdirectory().mkdir();
-        Log.d(TAG, "createDirectories: creating sub blank directory: " + (success ? "success": "fail"));
+        success = createDirectory(getBlankSubdirectory(), "creating sub blank directory: ");
+        return success;
+    }
+
+    private boolean createDirectory(File dir, String logHead){
+
+        boolean success = true;
+
+        if(!dir.exists()) {
+            success = dir.mkdir();
+            Log.d(TAG, "createDirectory: " + logHead + (success ? "success": "fail"));
+        } else {
+            Log.d(TAG, "createDirectory: " + logHead + "already created");
+        }
 
         return success;
     }
@@ -111,7 +131,7 @@ public class MainActivity extends ColoringAppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        
+
         if(requestCode == REQUEST_CODE_WRITE_EXT) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -119,7 +139,7 @@ public class MainActivity extends ColoringAppCompatActivity {
                 boolean success = createDirectories();
                 if(!success){
 
-                    Toast.makeText(this, "Failed to create directories. Cannot continue.\n", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Failed to create directories. Cannot continue.", Toast.LENGTH_LONG).show();
                     lockContinuation();
                 }
             } else {
@@ -172,11 +192,5 @@ public class MainActivity extends ColoringAppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadImageFromStorage();
     }
 }
