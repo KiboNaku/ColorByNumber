@@ -132,6 +132,8 @@ public class MainActivity extends ColoringAppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
+        allowContinuation();
+
         if(requestCode == REQUEST_CODE_WRITE_EXT) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -151,11 +153,13 @@ public class MainActivity extends ColoringAppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 loadImageFromStorage();
             } else {
-                lockContinuation();
                 Toast.makeText(this, "Unable to read files. Permission not granted.", Toast.LENGTH_LONG).show();
+                lockContinuation();
             }
         }
     }
+
+    private void allowContinuation(){permissionsGranted = true;}
 
     private void lockContinuation(){
         permissionsGranted = false;

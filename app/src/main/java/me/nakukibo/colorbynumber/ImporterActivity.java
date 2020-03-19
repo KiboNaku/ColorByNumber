@@ -37,10 +37,10 @@ import java.util.Locale;
 public class ImporterActivity extends ColoringAppCompatActivity {
 
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
-    private static final int REQUEST_CODE_CAMERA = 1;
+    private static final int REQUEST_CODE_READ_gallery = 2;
 
-    private static final int REQUEST_CODE_OPEN_GALLERY = 2;
-    private static final int REQUEST_CODE_READ_EXT = 2;
+    private static final int LAUNCH_CODE_CAMERA = 1;
+    private static final int LAUNCH_CODE_OPEN_GALLERY = 2;
 
     private CustomBitmap customBitmap;
     private ImageView imageViewRetrievedPhoto;
@@ -64,12 +64,17 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         buttonLaunchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(hasCameraHardware(ImporterActivity.this)){
+
                     if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
+                            != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    != PackageManager.PERMISSION_GRANTED) {
+
                         ActivityCompat.requestPermissions(ImporterActivity.this,
-                                new String[]{Manifest.permission.CAMERA},
-                                REQUEST_CODE_CAMERA);
+                                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                LAUNCH_CODE_CAMERA);
                     } else {
                         launchCamera();
                     }
@@ -85,10 +90,13 @@ public class ImporterActivity extends ColoringAppCompatActivity {
             public void onClick(View v) {
 
                 if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+
                     ActivityCompat.requestPermissions(ImporterActivity.this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_CODE_READ_EXT);
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_CODE_READ_gallery);
                 } else {
                     launchGallery();
                 }
@@ -98,23 +106,36 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
     private void launchGallery() {
         Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, REQUEST_CODE_OPEN_GALLERY);
+        startActivityForResult(i, LAUNCH_CODE_OPEN_GALLERY);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if(requestCode == REQUEST_CODE_CAMERA) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                launchCamera();
-            } else {
-                Toast.makeText(this, "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
+
+        if(requestCode == LAUNCH_CODE_CAMERA) {
+
+            if (grantResults.length > 1){
+
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    launchCamera();
+                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Cannot open camera. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
+                }
             }
-        } else if (requestCode == REQUEST_CODE_READ_EXT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                launchGallery();
-            } else {
-                Toast.makeText(this, "Cannot open gallery. Camera permission not given.", Toast.LENGTH_LONG).show();
+        } else if (requestCode == REQUEST_CODE_READ_gallery) {
+
+            if (grantResults.length > 1){
+
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    launchGallery();
+                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Cannot open gallery. Gallery permission not given.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Cannot open gallery. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -164,7 +185,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 //                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
 //                    }
 //                });
-            } else if(requestCode == REQUEST_CODE_OPEN_GALLERY) {
+            } else if(requestCode == LAUNCH_CODE_OPEN_GALLERY) {
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
                 Uri selectedImage = data.getData();
