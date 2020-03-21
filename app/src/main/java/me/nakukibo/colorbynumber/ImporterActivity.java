@@ -2,7 +2,6 @@ package me.nakukibo.colorbynumber;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -23,7 +22,6 @@ import androidx.core.content.ContextCompat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,16 +35,16 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
     private static final int LAUNCH_CODE_CAMERA = 1;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 2;
-
+    private static final String TAG = "ImporterActivity";
     private CustomBitmap customBitmap;
     private ImageView imageViewRetrievedPhoto;
     private Bitmap uncolored = null;
     private Integer color = null;
     private ColorSet colors = null;
     private List<Integer> viewList = null;
-    private int viewIndex = -1;
 
     //TODO: fix the order of requesting permissions
+    private int viewIndex = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -146,8 +144,6 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         }
     }
 
-    private static final String TAG = "ImporterActivity";
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -219,6 +215,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
         selectedImage = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
 
+
 //                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
 //                    @Override
 //                    public void onComplete() {
@@ -263,7 +260,6 @@ public class ImporterActivity extends ColoringAppCompatActivity {
     }
 
     public void paintColor(View view) {
-
 
         if (customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0)
             return;
@@ -319,158 +315,24 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    //temporary save code
+    private String getNewBitmapName(String importFormat) {
 
-    private void saveToInternalStorage(CustomBitmap customBitmap) {
-
-
-//
-//        try {
-//            FileOutputStream fOut = openFileOutput("data", Context.);
-//            fOut.write(newTask.getTitle().getBytes());
-//            fOut.write(newTask.getYear());
-//            fOut.write(newTask.getMonth());
-//            fOut.write(newTask.getDay());
-//            fOut.write(newTask.getHour());
-//            fOut.write(newTask.getMinute());
-//            fOut.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        public void readData(){
-//            FileInputStream fis = null;
-//            try {
-//                fis = new FileInputStream("data");
-//                System.out.println("Total file size to read (in bytes) : "
-//                        + fis.available());
-//                int content;
-//                while ((content = fis.read()) != -1) {
-//                    // convert to char and display it
-//                    System.out.print((char) content);
-//                }
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (fis != null)
-//                        fis.close();
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
-
-//        Saving (w/o exception handling code):
-
-        Log.d(TAG, "saveToInternalStorage: attempting to save");
-
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("images", Context.MODE_PRIVATE);
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.US).format(new Date());
-        String imageFileName = "Coloring_" + timeStamp;
-
-        File imagePath = new File(directory, imageFileName + ".txt");
-
-        FileOutputStream fos = null;
-        ObjectOutputStream os = null;
-
-        try {
-            Log.d(TAG, "saveToInternalStorage: fileName = " + imagePath.getAbsolutePath());
-
-            fos = openFileOutput(imageFileName, Context.MODE_PRIVATE);
-
-            os = new ObjectOutputStream(fos);
-            os.writeObject(this);
-
-        } catch (IOException io) {
-            io.printStackTrace();
-        } finally {
-            try {
-                if (os != null) os.close();
-                if (fos != null) fos.close();
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        }
-
-//        Loading (w/o exception handling code):
-//
-//        FileInputStream fis = context.openFileInput(fileName);
-//        ObjectInputStream is = new ObjectInputStream(fis);
-//        SimpleClass simpleClass = (SimpleClass) is.readObject();
-//        is.close();
-//        fis.close();
-
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        return importFormat + "_" + timeStamp + ".jpg";
     }
 
-//    /// <summary>
-//    /// Serializes an object.
-//    /// </summary>
-//    /// <typeparam name="T"></typeparam>
-//    /// <param name="serializableObject"></param>
-//    /// <param name="fileName"></param>
-//    public void SerializeObject<T>(T serializableObject, string fileName)
-//    {
-//        if (serializableObject == null) { return; }
-//
-//        try
-//        {
-//            XmlDocument xmlDocument = new XmlDocument();
-//            XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
-//            using (MemoryStream stream = new MemoryStream())
-//            {
-//                serializer.Serialize(stream, serializableObject);
-//                stream.Position = 0;
-//                xmlDocument.Load(stream);
-//                xmlDocument.Save(fileName);
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            //Log exception here
-//        }
-//    }
-//
-//
-//    /// <summary>
-//    /// Deserializes an xml file into an object list
-//    /// </summary>
-//    /// <typeparam name="T"></typeparam>
-//    /// <param name="fileName"></param>
-//    /// <returns></returns>
-//    public T DeSerializeObject<T>(string fileName)
-//    {
-//        if (string.IsNullOrEmpty(fileName)) { return default(T); }
-//
-//        T objectOut = default(T);
-//
-//        try
-//        {
-//            XmlDocument xmlDocument = new XmlDocument();
-//            xmlDocument.Load(fileName);
-//            string xmlString = xmlDocument.OuterXml;
-//
-//            using (StringReader read = new StringReader(xmlString))
-//            {
-//                Type outType = typeof(T);
-//
-//                XmlSerializer serializer = new XmlSerializer(outType);
-//                using (XmlReader reader = new XmlTextReader(read))
-//                {
-//                    objectOut = (T)serializer.Deserialize(reader);
-//                }
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            //Log exception here
-//        }
-//
-//        return objectOut;
-//    }
+    private File saveToInternalStorage(String fileName, Bitmap bitmap, File directory) {
+
+        File bitmapFile = new File(directory, fileName);
+        try {
+
+            FileOutputStream fos = new FileOutputStream(bitmapFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmapFile;
+    }
 }
