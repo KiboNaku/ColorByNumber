@@ -32,20 +32,23 @@ import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.color.ColorView;
 
 
-public class ImporterActivity extends ColoringAppCompatActivity {
+public class ConversionActivity extends ColoringAppCompatActivity {
 
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
     private static final int REQUEST_CODE_READ_gallery = 2;
 
     private static final int LAUNCH_CODE_CAMERA = 1;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 2;
-    private static final String TAG = "ImporterActivity";
+
+    private static final String TAG = "ConversionActivity";
+
     private CustomBitmap customBitmap;
-    private ImageView imageViewRetrievedPhoto;
     private Bitmap uncolored = null;
     private Integer color = null;
     private ColorSet colors = null;
     private List<Integer> viewList = null;
+
+    private File tempfile = null;
 
     //TODO: fix the order of requesting permissions
     private int viewIndex = -1;
@@ -56,28 +59,26 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_importer);
 
-        imageViewRetrievedPhoto = findViewById(R.id.image_view_retrieved);
-
         Button buttonLaunchCamera = findViewById(R.id.button_launch_camera);
         buttonLaunchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (hasCameraHardware(ImporterActivity.this)) {
+                if (hasCameraHardware(ConversionActivity.this)) {
 
-                    if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.CAMERA)
+                    if (ContextCompat.checkSelfPermission(ConversionActivity.this, Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED ||
-                            ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            ContextCompat.checkSelfPermission(ConversionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                     != PackageManager.PERMISSION_GRANTED) {
 
-                        ActivityCompat.requestPermissions(ImporterActivity.this,
+                        ActivityCompat.requestPermissions(ConversionActivity.this,
                                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                 LAUNCH_CODE_CAMERA);
                     } else {
                         launchCamera();
                     }
                 } else {
-                    Toast.makeText(ImporterActivity.this, "Cannot open camera. No hardware camera detected.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ConversionActivity.this, "Cannot open camera. No hardware camera detected.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -87,12 +88,12 @@ public class ImporterActivity extends ColoringAppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(ConversionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        ContextCompat.checkSelfPermission(ConversionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
 
-                    ActivityCompat.requestPermissions(ImporterActivity.this,
+                    ActivityCompat.requestPermissions(ConversionActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CODE_READ_gallery);
                 } else {
@@ -155,6 +156,9 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_FETCH_PHOTO) {
 
+                final String IMPORT = "camera";
+
+                View loadingBar = findViewById(R.id.progress_bar_load_image);
                 final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
 
                 Bundle extras = data.getExtras();
@@ -169,22 +173,18 @@ public class ImporterActivity extends ColoringAppCompatActivity {
                     return;
                 }
 
-                findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
+                loadingBar.setVisibility(View.VISIBLE);
+                useBitmap(imageBitmap, IMPORT);
+                loadingBar.setVisibility(View.INVISIBLE);
 
-                // TODO: fix camera code
-
-//                final CustomBitmap customBitmap = new CustomBitmap(imageBitmap);
-//                customBitmap.convert(new CustomBitmap.OnCompleteListener() {
-//                    @Override
-//                    public void onComplete() {
-//                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
-//                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
-//                    }
-//                });
             } else if (requestCode == LAUNCH_CODE_OPEN_GALLERY) {
 
+                final String IMPORT = "gallery";
+
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
-                findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
+
+                View loadingBar = findViewById(R.id.progress_bar_load_image);
+                loadingBar.setVisibility(View.VISIBLE);
 
                 Bitmap selectedImage = null;
 
@@ -194,7 +194,6 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
                     if (imageUri != null) {
                         selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                        findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -203,22 +202,24 @@ public class ImporterActivity extends ColoringAppCompatActivity {
                 if (selectedImage == null) {
 
                     Toast.makeText(this, "Failed to retrieve image.", Toast.LENGTH_LONG).show();
-                    findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
                 } else {
-                    useBitmap(selectedImage);
+                    useBitmap(selectedImage, IMPORT);
                 }
 
-                findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                loadingBar.setVisibility(View.INVISIBLE);
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void useBitmap(Bitmap selectedImage) {
+    private void useBitmap(Bitmap selectedImage, String importFormat) {
 
         selectedImage = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
+//        saveToInternalStorage(getNewBitmapName(importFormat), selectedImage, getOriginalSubdirectory());
 
+        ImageView photoImageView = findViewById(R.id.image_view_retrieved);
+        photoImageView.setImageBitmap(selectedImage);
 
 //                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
 //                    @Override
@@ -254,7 +255,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 //
 ////                        for(Integer color: customBitmap.getUniqueColors()){
 ////                            Log.d(TAG, "onComplete: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
-////                            View colorView = new View(ImporterActivity.this);
+////                            View colorView = new View(ConversionActivity.this);
 ////                            colorView.setBackgroundColor(color);
 ////                            colorsScroll.addView(colorView, 200, 200);
 ////                        }

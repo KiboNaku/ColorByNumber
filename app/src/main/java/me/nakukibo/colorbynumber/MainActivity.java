@@ -110,7 +110,7 @@ public class MainActivity extends ColoringAppCompatActivity {
     public void launchImporter(View view){
 
         if(permissionsGranted) {
-            Intent intent = new Intent(this, ImporterActivity.class);
+            Intent intent = new Intent(this, ConversionActivity.class);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
