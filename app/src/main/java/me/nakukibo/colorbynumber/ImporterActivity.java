@@ -27,6 +27,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
+import me.nakukibo.colorbynumber.color.ColorSet;
+import me.nakukibo.colorbynumber.color.ColorView;
+
 
 public class ImporterActivity extends ColoringAppCompatActivity {
 

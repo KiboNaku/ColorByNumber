@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.color;
 
 import android.content.Context;
 import android.util.AttributeSet;

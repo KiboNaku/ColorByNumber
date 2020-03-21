@@ -1,8 +1,10 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.bitmap;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import me.nakukibo.colorbynumber.color.ColorSet;
 
 public class CustomBitmap extends AsyncTask <Void, Void, Void> {
 

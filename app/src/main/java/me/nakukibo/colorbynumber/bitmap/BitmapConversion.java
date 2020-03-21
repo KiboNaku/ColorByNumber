@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.bitmap;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -6,7 +6,10 @@ import android.util.Log;
 
 import java.util.LinkedList;
 
-class BitmapConversion {
+import me.nakukibo.colorbynumber.color.ColorSet;
+import me.nakukibo.colorbynumber.color.MColor;
+
+public class BitmapConversion {
 
 
     private static final String TAG = "BitmapConversion";
