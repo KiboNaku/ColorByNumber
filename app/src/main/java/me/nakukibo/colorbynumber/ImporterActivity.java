@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +13,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +61,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(hasCameraHardware(ImporterActivity.this)){
+                if (hasCameraHardware(ImporterActivity.this)) {
 
                     if (ContextCompat.checkSelfPermission(ImporterActivity.this, Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED ||
@@ -105,7 +101,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
     }
 
     private void launchGallery() {
-        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, LAUNCH_CODE_OPEN_GALLERY);
     }
 
@@ -113,13 +109,13 @@ public class ImporterActivity extends ColoringAppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if(requestCode == LAUNCH_CODE_CAMERA) {
+        if (requestCode == LAUNCH_CODE_CAMERA) {
 
-            if (grantResults.length > 1){
+            if (grantResults.length > 1) {
 
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     launchCamera();
-                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "Cannot open camera. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
@@ -127,11 +123,11 @@ public class ImporterActivity extends ColoringAppCompatActivity {
             }
         } else if (requestCode == REQUEST_CODE_READ_gallery) {
 
-            if (grantResults.length > 1){
+            if (grantResults.length > 1) {
 
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     launchGallery();
-                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Cannot open gallery. Gallery permission not given.", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "Cannot open gallery. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
@@ -156,19 +152,19 @@ public class ImporterActivity extends ColoringAppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_FETCH_PHOTO) {
 
                 final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
 
                 Bundle extras = data.getExtras();
-                if(extras == null){
+                if (extras == null) {
                     Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                if(imageBitmap == null){
+                if (imageBitmap == null) {
                     Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -185,92 +181,111 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 //                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
 //                    }
 //                });
-            } else if(requestCode == LAUNCH_CODE_OPEN_GALLERY) {
+            } else if (requestCode == LAUNCH_CODE_OPEN_GALLERY) {
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                final Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                Bitmap imageBitmap = BitmapFactory.decodeFile(picturePath);
-
                 findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
 
-                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
-                    @Override
-                    public void onComplete() {
-                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
-//                        saveToInternalStorage(customBitmap);
-                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                Bitmap selectedImage = null;
 
-                        findViewById(R.id.layout_colors).setVisibility(View.VISIBLE);
-                        HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
+                try {
 
-                        colors = customBitmap.getUniqueColors();
+                    final Uri imageUri = data.getData();
 
-                        Log.d(TAG, "onComplete: number of colors = " + colors.size());
-
-                        viewList = new ArrayList<>();
-                        viewList.add(R.id.color);
-                        viewList.add(R.id.color1);
-                        viewList.add(R.id.color2);
-                        viewList.add(R.id.color3);
-                        viewList.add(R.id.color4);
-                        viewList.add(R.id.color5);
-                        viewList.add(R.id.color6);
-                        viewList.add(R.id.color7);
-                        viewList.add(R.id.color8);
-                        viewList.add(R.id.color9);
-
-                        for(int i=0; i<Math.min(colors.size(), 10); i++){
-                            int color = colors.pop().getColor();
-                            Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
-                            ((ColorView) findViewById(viewList.get(i))).setColor(color);
-                        }
-
-//                        for(Integer color: customBitmap.getUniqueColors()){
-//                            Log.d(TAG, "onComplete: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
-//                            View colorView = new View(ImporterActivity.this);
-//                            colorView.setBackgroundColor(color);
-//                            colorsScroll.addView(colorView, 200, 200);
-//                        }
+                    if (imageUri != null) {
+                        selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        findViewById(R.id.progress_bar_load_image).setVisibility(View.VISIBLE);
                     }
-                });
-                customBitmap.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (selectedImage == null) {
+
+                    Toast.makeText(this, "Failed to retrieve image.", Toast.LENGTH_LONG).show();
+                    findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+                } else {
+                    useBitmap(selectedImage);
+                }
+
+                findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void paintColor(View view){
+    private void useBitmap(Bitmap selectedImage) {
+
+        selectedImage = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
+
+//                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
+//                    @Override
+//                    public void onComplete() {
+//                        imageViewRetrievedPhoto.setImageBitmap(customBitmap.getColored());
+////                        saveToInternalStorage(customBitmap);
+//                        findViewById(R.id.progress_bar_load_image).setVisibility(View.INVISIBLE);
+//
+//                        findViewById(R.id.layout_colors).setVisibility(View.VISIBLE);
+//                        HorizontalScrollView colorsScroll = findViewById(R.id.scroll_colors);
+//
+//                        colors = customBitmap.getUniqueColors();
+//
+//                        Log.d(TAG, "onComplete: number of colors = " + colors.size());
+//
+//                        viewList = new ArrayList<>();
+//                        viewList.add(R.id.color);
+//                        viewList.add(R.id.color1);
+//                        viewList.add(R.id.color2);
+//                        viewList.add(R.id.color3);
+//                        viewList.add(R.id.color4);
+//                        viewList.add(R.id.color5);
+//                        viewList.add(R.id.color6);
+//                        viewList.add(R.id.color7);
+//                        viewList.add(R.id.color8);
+//                        viewList.add(R.id.color9);
+//
+//                        for(int i=0; i<Math.min(colors.size(), 10); i++){
+//                            int color = colors.pop().getColor();
+//                            Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+//                            ((ColorView) findViewById(viewList.get(i))).setColor(color);
+//                        }
+//
+////                        for(Integer color: customBitmap.getUniqueColors()){
+////                            Log.d(TAG, "onComplete: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+////                            View colorView = new View(ImporterActivity.this);
+////                            colorView.setBackgroundColor(color);
+////                            colorsScroll.addView(colorView, 200, 200);
+////                        }
+//                    }
+//                });
+//                customBitmap.execute();
+    }
+
+    public void paintColor(View view) {
 
 
-        if(customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0) return;
+        if (customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0)
+            return;
 
         Log.d(TAG, "paintColor: color is painting");
         Log.d(TAG, "paintColor: painting color " + "(" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
 
-        
+
         Bitmap colored = customBitmap.getColored();
         Bitmap blank = customBitmap.getBlank();
 
-        for(int i=0; i<blank.getHeight(); i++){
-            for(int j=0; j<blank.getWidth(); j++){
-                if(colored.getPixel(j, i) == color){
+        for (int i = 0; i < blank.getHeight(); i++) {
+            for (int j = 0; j < blank.getWidth(); j++) {
+                if (colored.getPixel(j, i) == color) {
                     blank.setPixel(j, i, color);
                 }
             }
         }
 
-        ColorView colorView =  ((ColorView) findViewById(viewList.get(viewIndex)));
+        ColorView colorView = ((ColorView) findViewById(viewList.get(viewIndex)));
 
-        if(colors.size() > 0) colorView.setColor(colors.pop().getColor());
+        if (colors.size() > 0) colorView.setColor(colors.pop().getColor());
         else colorView.setVisibility(View.GONE);
 
         color = -1;
@@ -280,21 +295,21 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
     }
 
-    public void selectColor(View view){
+    public void selectColor(View view) {
 
         int id = view.getId();
         boolean foundView = false;
 
         Log.d(TAG, "selectColor: colorview size=" + viewList.size());
 
-        for(int i=0; i<viewList.size(); i++){
-            if(id == viewList.get(i)) {
+        for (int i = 0; i < viewList.size(); i++) {
+            if (id == viewList.get(i)) {
                 viewIndex = i;
                 foundView = true;
             }
         }
-        
-        if(!foundView) Log.d(TAG, "selectColor: cannot find view");
+
+        if (!foundView) Log.d(TAG, "selectColor: cannot find view");
 
         color = ((ColorView) view).getColor();
         Log.d(TAG, "selectColor: color = (" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
@@ -306,7 +321,7 @@ public class ImporterActivity extends ColoringAppCompatActivity {
 
     //temporary save code
 
-    private void saveToInternalStorage(CustomBitmap customBitmap){
+    private void saveToInternalStorage(CustomBitmap customBitmap) {
 
 
 //
@@ -375,9 +390,9 @@ public class ImporterActivity extends ColoringAppCompatActivity {
         } catch (IOException io) {
             io.printStackTrace();
         } finally {
-            try{
-                if(os != null) os.close();
-                if(fos != null) fos.close();
+            try {
+                if (os != null) os.close();
+                if (fos != null) fos.close();
             } catch (IOException io) {
                 io.printStackTrace();
             }
