@@ -19,10 +19,10 @@ public class MColor {
         double r1 = mLab[1] - cLab[1];
         double r2 = mLab[2] - cLab[2];
 
-        return r0*r0 + r1*r1 + r2*r2;
+        return r0 * r0 + r1 * r1 + r2 * r2;
     }
 
-    public double[] getLAB(){
+    public double[] getLAB() {
 
         double[] lab = new double[3];
         ColorUtils.colorToLAB(color, lab);

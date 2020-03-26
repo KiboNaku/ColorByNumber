@@ -18,9 +18,9 @@ import java.io.File;
 
 public class MainActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
     public static final String FILE_NAME = "filename";
 
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_WRITE_EXT = 0;
     private static final int REQUEST_CODE_READ_EXT = 1;
 
@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
         loadImageFromStorage();
     }
 
-    private void permissionActivities(){
+    private void permissionActivities() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         } else {
 
             boolean success = createDirectories();
-            if(!success){
+            if (!success) {
 
                 Toast.makeText(this, "Failed to create directories. Cannot continue.\n", Toast.LENGTH_LONG).show();
                 lockContinuation();
@@ -76,33 +76,33 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public boolean createDirectories(){
+    public boolean createDirectories() {
 
         boolean success;
 
         success = createDirectory(getImagesDirectory(), "creating main images directory: ");
-        if(!success) return false;
+        if (!success) return false;
 
         success = createDirectory(getOriginalSubdirectory(), "creating sub original directory: ");
-        if(!success) return false;
+        if (!success) return false;
 
 
         success = createDirectory(getColoredSubdirectory(), "creating sub colored directory: ");
-        if(!success) return false;
+        if (!success) return false;
 
         success = createDirectory(getBlankSubdirectory(), "creating sub blank directory: ");
         return success;
     }
 
-    private boolean createDirectory(File dir, String logHead){
+    private boolean createDirectory(File dir, String logHead) {
 
         boolean success = true;
 
         Log.d(TAG, "createDirectory: creating directory path =  " + dir.getPath());
 
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             success = dir.mkdir();
-            Log.d(TAG, "createDirectory: " + logHead + (success ? "success": "fail"));
+            Log.d(TAG, "createDirectory: " + logHead + (success ? "success" : "fail"));
         } else {
             Log.d(TAG, "createDirectory: " + logHead + "already created");
         }
@@ -110,9 +110,9 @@ public class MainActivity extends BaseActivity {
         return success;
     }
 
-    public void launchImporter(View view){
+    public void launchImporter(View view) {
 
-        if(permissionsGranted) {
+        if (permissionsGranted) {
             Intent intent = new Intent(this, ConversionActivity.class);
             startActivity(intent);
         } else {
@@ -120,9 +120,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void launchColoring(View view){
+    public void launchColoring(View view) {
 
-        if(permissionsGranted) {
+        if (permissionsGranted) {
             Intent intent = new Intent(this, ColoringActivity.class);
             intent.putExtra(FILE_NAME, fileName);
             startActivity(intent);
@@ -137,12 +137,12 @@ public class MainActivity extends BaseActivity {
 
         allowContinuation();
 
-        if(requestCode == REQUEST_CODE_WRITE_EXT) {
+        if (requestCode == REQUEST_CODE_WRITE_EXT) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 boolean success = createDirectories();
-                if(!success){
+                if (!success) {
 
                     Toast.makeText(this, "Failed to create directories. Cannot continue.", Toast.LENGTH_LONG).show();
                     lockContinuation();
@@ -162,9 +162,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void allowContinuation(){permissionsGranted = true;}
+    private void allowContinuation() {
+        permissionsGranted = true;
+    }
 
-    private void lockContinuation(){
+    private void lockContinuation() {
         permissionsGranted = false;
     }
 

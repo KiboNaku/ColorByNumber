@@ -11,17 +11,15 @@ import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 
 public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
 
+    public static final int CONVERT_COLORED = 1;
+    public static final int CONVERT_BLANK = 2;
+
     private String fileName;
     private File originalDir;
     private File coloredDir;
     private File blankDir;
     private ColorSet uniqueColors;
     private OnCompleteListener onCompleteListener;
-
-    private static final String TAG = "CustomBitmap";
-
-    public static final int CONVERT_COLORED = 1;
-    public static final int CONVERT_BLANK = 2;
 
     public CustomBitmap(String fileName, File originalDir, File coloredDir, File blankDir) {
         this.fileName = fileName;

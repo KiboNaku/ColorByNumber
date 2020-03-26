@@ -13,26 +13,6 @@ import java.io.IOException;
 
 public abstract class BaseActivity extends Activity {
 
-    public ContextWrapper getAppCW(){
-        return new ContextWrapper(getApplicationContext());
-    }
-
-    public File getImagesDirectory(){
-        return getAppCW().getDir("images", Context.MODE_PRIVATE);
-    }
-
-    public File getOriginalSubdirectory(){
-        return new File(getImagesDirectory().toString() + File.separator + "original");
-    }
-
-    public File getColoredSubdirectory(){
-        return new File(getImagesDirectory().toString() + File.separator + "colored");
-    }
-
-    public File getBlankSubdirectory(){
-        return new File(getImagesDirectory().toString() + File.separator + "blank");
-    }
-
     public static File saveToInternalStorage(File directory, String fileName, Bitmap bitmap) {
 
         File bitmapFile = new File(directory, fileName);
@@ -53,7 +33,7 @@ public abstract class BaseActivity extends Activity {
         Bitmap bitmap = null;
 
         if (fileName == null) {
-            return bitmap;
+            return null;
         }
 
         try {
@@ -67,5 +47,25 @@ public abstract class BaseActivity extends Activity {
         }
 
         return bitmap;
+    }
+
+    public ContextWrapper getAppCW() {
+        return new ContextWrapper(getApplicationContext());
+    }
+
+    public File getImagesDirectory() {
+        return getAppCW().getDir("images", Context.MODE_PRIVATE);
+    }
+
+    public File getOriginalSubdirectory() {
+        return new File(getImagesDirectory().toString() + File.separator + "original");
+    }
+
+    public File getColoredSubdirectory() {
+        return new File(getImagesDirectory().toString() + File.separator + "colored");
+    }
+
+    public File getBlankSubdirectory() {
+        return new File(getImagesDirectory().toString() + File.separator + "blank");
     }
 }

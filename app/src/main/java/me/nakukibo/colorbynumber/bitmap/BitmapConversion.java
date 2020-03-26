@@ -10,7 +10,7 @@ import me.nakukibo.colorbynumber.BaseActivity;
 import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.color.MColor;
 
-public class BitmapConversion {
+class BitmapConversion {
 
     static ColorSet getUniqueColors(Bitmap bitmap) {
         return new ColorSet(bitmap);
@@ -56,12 +56,12 @@ public class BitmapConversion {
         surColors.add(new PixelCoordinates(nextFalse.x, nextFalse.y));
         changedColors.add(new PixelCoordinates(nextFalse.x, nextFalse.y));
 
-        while(!surColors.isEmpty()){
+        while (!surColors.isEmpty()) {
             PixelCoordinates pixelCoordinates = surColors.pop();
             pushNeighbors(bitmap, surColors, changedColors, pixelCoordinates, pixel, uniqueColors, changedColor);
         }
 
-        while(!changedColors.isEmpty()){
+        while (!changedColors.isEmpty()) {
             PixelCoordinates pixelCoordinates = changedColors.pop();
             bitmap.setPixel(pixelCoordinates.x, pixelCoordinates.y, pixel.getColor());
         }
@@ -102,43 +102,37 @@ public class BitmapConversion {
         return neighbors;
     }
 
-    private static int pushNeighbors(Bitmap photo, LinkedList<PixelCoordinates> surColors, LinkedList<PixelCoordinates> changed,
-                                      PixelCoordinates curPixel,  MColor color, ColorSet colorSet, boolean[][] changedColor) {
-
-        int neighbors = 0;
+    private static void pushNeighbors(Bitmap photo, LinkedList<PixelCoordinates> surColors, LinkedList<PixelCoordinates> changed,
+                                      PixelCoordinates curPixel, MColor color, ColorSet colorSet, boolean[][] changedColor) {
 
         int minX = curPixel.x > 0 ? curPixel.x - 1 : curPixel.x;
-        int maxX = curPixel.x < changedColor[0].length-1 ? curPixel.x + 1 : curPixel.x;
+        int maxX = curPixel.x < changedColor[0].length - 1 ? curPixel.x + 1 : curPixel.x;
 
         int minY = curPixel.y > 0 ? curPixel.y - 1 : curPixel.y;
-        int maxY = curPixel.y < changedColor.length-1 ? curPixel.y + 1 : curPixel.y;
+        int maxY = curPixel.y < changedColor.length - 1 ? curPixel.y + 1 : curPixel.y;
 
-        for(int i=minY; i<=maxY; i++){
-            for(int j=minX; j<=maxX; j++){
+        for (int i = minY; i <= maxY; i++) {
+            for (int j = minX; j <= maxX; j++) {
 
                 MColor nColor = new MColor(photo.getPixel(j, i));
 
-                if(nColor.distanceSqrFrom(color) <= colorSet.getMinDistSqr()){
+                if (nColor.distanceSqrFrom(color) <= colorSet.getMinDistSqr()) {
 
-                    if(!changedColor[i][j]) {
+                    if (!changedColor[i][j]) {
                         changedColor[i][j] = true;
                         surColors.add(new PixelCoordinates(j, i));
                         changed.add(new PixelCoordinates(j, i));
                     }
-
-                    neighbors ++;
                 }
             }
         }
-
-        return neighbors;
     }
 
-    private static PixelCoordinates getNextFalseInArray(boolean[][] booleanArray){
+    private static PixelCoordinates getNextFalseInArray(boolean[][] booleanArray) {
 
-        for(int i=0; i<booleanArray.length; i++){
-            for(int j=0; j<booleanArray[0].length; j++){
-                if(!booleanArray[i][j]) return new PixelCoordinates(j, i);
+        for (int i = 0; i < booleanArray.length; i++) {
+            for (int j = 0; j < booleanArray[0].length; j++) {
+                if (!booleanArray[i][j]) return new PixelCoordinates(j, i);
             }
         }
 

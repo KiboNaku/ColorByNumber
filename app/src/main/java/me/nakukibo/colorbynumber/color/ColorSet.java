@@ -7,14 +7,14 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class ColorSet extends LinkedList<MColor>{
+public class ColorSet extends LinkedList<MColor> {
 
     private long minDistSqr = 180;
 
-    public ColorSet(@NonNull Bitmap bitmap){
+    public ColorSet(@NonNull Bitmap bitmap) {
 
-        for(int i=0; i<bitmap.getHeight(); i++){
-            for(int j=0; j<bitmap.getWidth(); j++){
+        for (int i = 0; i < bitmap.getHeight(); i++) {
+            for (int j = 0; j < bitmap.getWidth(); j++) {
                 add(new MColor(bitmap.getPixel(j, i)));
             }
         }
@@ -26,17 +26,17 @@ public class ColorSet extends LinkedList<MColor>{
 
     @Override
     public void addFirst(MColor mColor) {
-        if(canAdd(mColor)) super.addFirst(mColor);
+        if (canAdd(mColor)) super.addFirst(mColor);
     }
 
     @Override
     public void addLast(MColor mColor) {
-        if(canAdd(mColor)) super.addLast(mColor);
+        if (canAdd(mColor)) super.addLast(mColor);
     }
 
     @Override
     public boolean add(MColor mColor) {
-        if(canAdd(mColor)) return super.add(mColor);
+        if (canAdd(mColor)) return super.add(mColor);
         return false;
     }
 
@@ -45,7 +45,7 @@ public class ColorSet extends LinkedList<MColor>{
 
         boolean modified = false;
 
-        for(MColor mColor: c) {
+        for (MColor mColor : c) {
             if (canAdd(mColor)) {
                 modified = true;
                 add(mColor);
@@ -60,7 +60,7 @@ public class ColorSet extends LinkedList<MColor>{
 
         boolean modified = false;
 
-        for(MColor mColor: c) {
+        for (MColor mColor : c) {
             if (canAdd(mColor)) {
                 modified = true;
                 add(index, mColor);
@@ -81,10 +81,10 @@ public class ColorSet extends LinkedList<MColor>{
         if (canAdd(element)) super.add(index, element);
     }
 
-    public boolean canAdd(MColor color){
+    public boolean canAdd(MColor color) {
 
-        for(MColor mColor: this){
-            if(color.distanceSqrFrom(mColor) < minDistSqr) {
+        for (MColor mColor : this) {
+            if (color.distanceSqrFrom(mColor) < minDistSqr) {
                 return false;
             }
         }
@@ -92,15 +92,15 @@ public class ColorSet extends LinkedList<MColor>{
         return true;
     }
 
-    public MColor getClosestColor(MColor cColor){
+    public MColor getClosestColor(MColor cColor) {
 
         double minDist = Double.MAX_VALUE;
         MColor closest = null;
 
-        for(MColor mColor: this){
+        for (MColor mColor : this) {
 
             double cDist = mColor.distanceSqrFrom(cColor);
-            if(cDist <= minDist) {
+            if (cDist <= minDist) {
                 minDist = cDist;
                 closest = mColor;
             }

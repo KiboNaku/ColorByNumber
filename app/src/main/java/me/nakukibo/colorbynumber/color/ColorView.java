@@ -26,12 +26,12 @@ public class ColorView extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setColor(int color){
-        this.color = color;
-        setBackgroundColor(color);
-    }
-
     public int getColor() {
         return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+        setBackgroundColor(color);
     }
 }
