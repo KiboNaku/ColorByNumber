@@ -2,6 +2,7 @@ package me.nakukibo.colorbynumber.bitmap;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -12,11 +13,15 @@ import me.nakukibo.colorbynumber.color.MColor;
 
 class BitmapConversion {
 
+    private static final String TAG = "BitmapConversion";
+
     static ColorSet getUniqueColors(Bitmap bitmap) {
         return new ColorSet(bitmap);
     }
 
-    static void createColorGrouped(Bitmap bitmap, ColorSet uniqueColors, File dir, String fileName) {
+    static void createColorGrouped(CustomBitmap customBitmap, Bitmap bitmap, ColorSet uniqueColors, File dir, String fileName) {
+
+        Log.d(TAG, "createColorGrouped: creating color grouped bitmap");
 
         bitmap = bitmap.copy(bitmap.getConfig(), true);
         boolean[][] changedColor = new boolean[bitmap.getHeight()][bitmap.getWidth()];
@@ -24,18 +29,33 @@ class BitmapConversion {
 
         while ((pixelCoordinates = getNextFalseInArray(changedColor)) != null) {
             setColorGroupedPixel(bitmap, uniqueColors, pixelCoordinates, changedColor);
+            customBitmap.updateProgress(bitmap);
         }
 
         BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
     }
 
-    static void createColorBlank(Bitmap bitmap, ColorSet uniqueColors, File dir, String fileName) {
+    static void createColorBlank(CustomBitmap customBitmap, Bitmap bitmap, ColorSet uniqueColors, File dir, String fileName) {
+
+        Log.d(TAG, "createColorBlank: creating blank bitmap");
+
+        final int HEIGHT = bitmap.getHeight();
+        final int WIDTH = bitmap.getWidth();
+        final int MAX_UPDATES = 100;
+
+        int updateCountDown = Math.min(WIDTH * HEIGHT / MAX_UPDATES, HEIGHT);
+        int count = updateCountDown;
 
         bitmap = bitmap.copy(bitmap.getConfig(), true);
 
         for (int i = 0; i < bitmap.getHeight(); i++) {
             for (int j = 0; j < bitmap.getWidth(); j++) {
                 setColorBlankPixel(bitmap, uniqueColors, new PixelCoordinates(j, i));
+                count--;
+                if (count <= 0) {
+                    customBitmap.updateProgress(bitmap);
+                    count = updateCountDown;
+                }
             }
         }
 
@@ -75,6 +95,8 @@ class BitmapConversion {
 
         if (sameColorNeighbors < 9) {
             bitmap.setPixel(nextFalse.x, nextFalse.y, Color.BLACK);
+        } else {
+            bitmap.setPixel(nextFalse.x, nextFalse.y, Color.WHITE);
         }
     }
 

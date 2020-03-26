@@ -23,16 +23,20 @@ public class ImportPopup extends BaseActivity {
 
     private void startConversion() {
 
+        final ImageView imageView = findViewById(R.id.image_view_import);
         final String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
+
         CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
+
         customBitmap.setOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete() {
-                ImageView imageView = findViewById(R.id.image_view_import);
-                imageView.setImageBitmap(getBitmap(getColoredSubdirectory(), fileName));
+                imageView.setImageBitmap(getBitmap(getBlankSubdirectory(), fileName));
             }
         });
-        customBitmap.execute(CustomBitmap.CONVERT_COLORED);
+        customBitmap.setUpdateView(imageView);
+
+        customBitmap.execute(CustomBitmap.CONVERT_BLANK);
     }
 
     private void setWindow() {

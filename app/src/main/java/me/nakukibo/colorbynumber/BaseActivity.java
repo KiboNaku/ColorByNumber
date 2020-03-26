@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +14,11 @@ import java.io.IOException;
 
 public abstract class BaseActivity extends Activity {
 
+    private static final String TAG = "BaseActivity";
+
     public static File saveToInternalStorage(File directory, String fileName, Bitmap bitmap) {
+
+        Log.d(TAG, "saveToInternalStorage: saving " + fileName + " to " + directory.toString());
 
         File bitmapFile = new File(directory, fileName);
         try {
@@ -29,6 +34,8 @@ public abstract class BaseActivity extends Activity {
     }
 
     public static Bitmap getBitmap(File dir, String fileName) {
+
+        Log.d(TAG, "getBitmap: fetching " + fileName + " to " + dir.toString());
 
         Bitmap bitmap = null;
 

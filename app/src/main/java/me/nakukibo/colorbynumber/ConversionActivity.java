@@ -33,6 +33,8 @@ import me.nakukibo.colorbynumber.color.ColorView;
 
 public class ConversionActivity extends BaseActivity {
 
+    //TODO: remove ConversionActivity and move to MainActivity
+
     public static final String FILE_NAME = "filepath";
 
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;

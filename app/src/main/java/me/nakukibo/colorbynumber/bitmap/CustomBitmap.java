@@ -2,6 +2,7 @@ package me.nakukibo.colorbynumber.bitmap;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 
 import java.io.File;
 
@@ -9,7 +10,7 @@ import me.nakukibo.colorbynumber.ConversionActivity;
 import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 
-public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
+public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
     public static final int CONVERT_COLORED = 1;
     public static final int CONVERT_BLANK = 2;
@@ -18,6 +19,7 @@ public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
     private File originalDir;
     private File coloredDir;
     private File blankDir;
+    private ImageView updateView;
     private ColorSet uniqueColors;
     private OnCompleteListener onCompleteListener;
 
@@ -26,6 +28,7 @@ public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
         this.originalDir = originalDir;
         this.coloredDir = coloredDir;
         this.blankDir = blankDir;
+        this.updateView = null;
         this.uniqueColors = null;
         this.onCompleteListener = null;
     }
@@ -43,19 +46,29 @@ public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
         switch (code) {
             case CONVERT_COLORED:
 
-                BitmapConversion.createColorGrouped(bitmap, uniqueColors, coloredDir, fileName);
+                BitmapConversion.createColorGrouped(this, bitmap, uniqueColors, coloredDir, fileName);
                 break;
             case CONVERT_BLANK:
 
                 Bitmap colored = ConversionActivity.getBitmap(coloredDir, fileName);
                 if (colored == null) {
-                    BitmapConversion.createColorGrouped(bitmap, uniqueColors, coloredDir, fileName);
+                    BitmapConversion.createColorGrouped(this, bitmap, uniqueColors, coloredDir, fileName);
                     colored = ConversionActivity.getBitmap(coloredDir, fileName);
                 }
-                BitmapConversion.createColorBlank(colored, uniqueColors, blankDir, fileName);
+                BitmapConversion.createColorBlank(this, colored, uniqueColors, blankDir, fileName);
         }
 
         return null;
+    }
+
+    public void updateProgress(Bitmap... values) {
+        publishProgress(values);
+    }
+
+    @Override
+    protected void onProgressUpdate(Bitmap... values) {
+        super.onProgressUpdate(values);
+        if (updateView != null) updateView.setImageBitmap(values[0]);
     }
 
     @Override
@@ -65,6 +78,10 @@ public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
             onCompleteListener.onComplete();
             onCompleteListener = null;
         }
+    }
+
+    public void setUpdateView(ImageView updateView) {
+        this.updateView = updateView;
     }
 
     public void setOnCompleteListener(OnCompleteListener onCompleteListener) {
