@@ -17,9 +17,7 @@
     <list default="true" id="dcc71192-c37c-4535-b816-5333fcc3ed2b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/BitmapConversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/BitmapConversion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -53,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="220" column="77" selection-start-line="220" selection-start-column="77" selection-end-line="220" selection-end-column="77" />
+            <state relative-caret-position="-16">
+              <caret line="92" column="63" lean-forward="true" selection-start-line="92" selection-start-column="63" selection-end-line="92" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -66,7 +64,10 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-16">
-              <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35">
-              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="307">
+              <caret line="24" column="140" selection-start-line="24" selection-start-column="140" selection-end-line="24" selection-end-column="140" />
             </state>
           </provider>
         </entry>
@@ -102,16 +103,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+            <state relative-caret-position="477">
+              <caret line="61" column="13" lean-forward="true" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#954#955#0" expanded="true" />
-                <element signature="e#985#986#0" expanded="true" />
-                <element signature="e#1313#1314#0" expanded="true" />
-                <element signature="e#1348#1349#0" expanded="true" />
-                <element signature="e#1406#1407#0" expanded="true" />
-                <element signature="e#1454#1455#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -181,11 +176,11 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/BitmapConversion.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" />
       </list>
     </option>
   </component>
@@ -402,7 +397,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585235316701</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="BitmapConversion: redid functions to separate each conversion">
+      <created>1585245417512</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585245417512</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -445,22 +447,22 @@
       <window_info anchor="right" id="Preview" order="5" />
     </layout>
     <layout-to-restore>
-      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.18791947" />
-      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49731904" visible="true" weight="0.18053691" />
+      <window_info id="Structure" order="1" side_tool="true" />
+      <window_info id="Captures" order="2" side_tool="true" weight="0.25" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Designer" order="5" />
       <window_info id="Resources Explorer" order="6" />
       <window_info id="Capture Tool" order="7" />
-      <window_info id="Favorites" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.91610736" weight="0.37935656" />
-      <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.8557047" weight="0.3297587" />
-      <window_info anchor="bottom" id="TODO" order="2" weight="0.3297587" />
-      <window_info anchor="bottom" id="Android Profiler" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" />
-      <window_info anchor="bottom" id="Terminal" order="5" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.1442953" side_tool="true" weight="0.3297587" />
+      <window_info id="Favorites" order="8" sideWeight="0.50268096" side_tool="true" weight="0.15503356" />
+      <window_info anchor="bottom" id="Logcat" order="0" sideWeight="0.8550336" weight="0.3297587" />
+      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.7530201" weight="0.37935656" />
+      <window_info anchor="bottom" id="Android Profiler" order="2" weight="0.9597855" />
+      <window_info anchor="bottom" id="Debug" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="4" weight="0.3297587" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.3297587" />
+      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.14496644" side_tool="true" weight="0.3297587" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Build" order="8" weight="0.3297587" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.3297587" />
@@ -479,7 +481,8 @@
     <MESSAGE value="renamed ImporterActivity to ConversionActivity" />
     <MESSAGE value="added importer popup" />
     <MESSAGE value="ImportPopup: added loading of selected image" />
-    <option name="LAST_COMMIT_MESSAGE" value="ImportPopup: added loading of selected image" />
+    <MESSAGE value="BitmapConversion: redid functions to separate each conversion" />
+    <option name="LAST_COMMIT_MESSAGE" value="BitmapConversion: redid functions to separate each conversion" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -681,45 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2907">
-          <caret line="185" column="2" selection-start-line="185" selection-start-column="2" selection-end-line="185" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="1683">
-          <caret line="99" column="44" selection-start-line="99" selection-start-column="44" selection-end-line="144" selection-end-column="23" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="220" column="77" selection-start-line="220" selection-start-column="77" selection-end-line="220" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="8" column="32" lean-forward="true" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/BitmapConversion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="545">
@@ -731,18 +695,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+        <state relative-caret-position="2907">
+          <caret line="185" column="2" selection-start-line="185" selection-start-column="2" selection-end-line="185" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="1683">
+          <caret line="99" column="44" selection-start-line="99" selection-start-column="44" selection-end-line="144" selection-end-column="23" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#954#955#0" expanded="true" />
-            <element signature="e#985#986#0" expanded="true" />
-            <element signature="e#1313#1314#0" expanded="true" />
-            <element signature="e#1348#1349#0" expanded="true" />
-            <element signature="e#1406#1407#0" expanded="true" />
-            <element signature="e#1454#1455#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="92" column="63" lean-forward="true" selection-start-line="92" selection-start-column="63" selection-end-line="92" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="24" column="140" selection-start-line="24" selection-start-column="140" selection-end-line="24" selection-end-column="140" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="61" column="13" lean-forward="true" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

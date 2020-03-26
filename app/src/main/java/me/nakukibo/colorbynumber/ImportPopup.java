@@ -1,15 +1,7 @@
 package me.nakukibo.colorbynumber;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 
@@ -30,34 +22,7 @@ public class ImportPopup extends BaseActivity {
     private void startConversion() {
 
         String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
-        CustomBitmap customBitmap = new CustomBitmap(fileName);
-    }
-
-    private Bitmap getImage(String fileName) {
-
-        final String ERROR_MSG = "Failed to fetch image. Try again.";
-
-        if (fileName == null) {
-            finish();
-            return null;
-        }
-
-        try {
-
-            File directory = getOriginalSubdirectory();
-            File f = new File(directory, fileName);
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ImageView img = findViewById(R.id.image_view_import);
-            img.setImageBitmap(b);
-
-            return b;
-        } catch (FileNotFoundException | NullPointerException e) {
-
-            e.printStackTrace();
-            Toast.makeText(this, ERROR_MSG, Toast.LENGTH_LONG).show();
-        }
-
-        return null;
+        CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
     }
 
     private void setWindow() {

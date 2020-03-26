@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -44,5 +47,21 @@ public abstract class BaseActivity extends Activity {
         }
 
         return bitmapFile;
+    }
+
+    public static Bitmap getBitmap(File dir, String fileName) {
+
+        if (fileName == null) {
+            return null;
+        }
+
+        try {
+            File f = new File(dir, fileName);
+            return BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
