@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
+
 public class ImportPopup extends BaseActivity {
 
     private static final String TAG = "ImportPopup";
@@ -22,17 +24,22 @@ public class ImportPopup extends BaseActivity {
         setContentView(R.layout.import_popup);
 
         setWindow();
-        loadImage();
+        startConversion();
     }
 
-    private void loadImage() {
+    private void startConversion() {
+
+        String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
+        CustomBitmap customBitmap = new CustomBitmap(fileName);
+    }
+
+    private Bitmap getImage(String fileName) {
 
         final String ERROR_MSG = "Failed to fetch image. Try again.";
-        String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
 
         if (fileName == null) {
             finish();
-            return;
+            return null;
         }
 
         try {
@@ -42,11 +49,15 @@ public class ImportPopup extends BaseActivity {
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
             ImageView img = findViewById(R.id.image_view_import);
             img.setImageBitmap(b);
+
+            return b;
         } catch (FileNotFoundException | NullPointerException e) {
 
             e.printStackTrace();
             Toast.makeText(this, ERROR_MSG, Toast.LENGTH_LONG).show();
         }
+
+        return null;
     }
 
     private void setWindow() {

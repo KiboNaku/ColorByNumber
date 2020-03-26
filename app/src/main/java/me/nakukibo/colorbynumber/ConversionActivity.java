@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -219,7 +218,7 @@ public class ConversionActivity extends BaseActivity {
 
         String fileName = getNewBitmapName(importFormat);
 
-        File originalFile = saveToInternalStorage(fileName, selectedImage, getOriginalSubdirectory());
+        File originalFile = saveToInternalStorage(getOriginalSubdirectory(), fileName, selectedImage);
 
         ImageView photoImageView = findViewById(R.id.image_view_retrieved);
         photoImageView.setImageBitmap(selectedImage);
@@ -271,37 +270,37 @@ public class ConversionActivity extends BaseActivity {
 //                customBitmap.execute();
     }
 
-    public void paintColor(View view) {
-
-        if (customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0)
-            return;
-
-        Log.d(TAG, "paintColor: color is painting");
-        Log.d(TAG, "paintColor: painting color " + "(" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
-
-
-        Bitmap colored = customBitmap.getColored();
-        Bitmap blank = customBitmap.getBlank();
-
-        for (int i = 0; i < blank.getHeight(); i++) {
-            for (int j = 0; j < blank.getWidth(); j++) {
-                if (colored.getPixel(j, i) == color) {
-                    blank.setPixel(j, i, color);
-                }
-            }
-        }
-
-        ColorView colorView = ((ColorView) findViewById(viewList.get(viewIndex)));
-
-        if (colors.size() > 0) colorView.setColor(colors.pop().getColor());
-        else colorView.setVisibility(View.GONE);
-
-        color = -1;
-        viewIndex = -1;
-
-        ((ImageView) findViewById(R.id.image_view_retrieved)).setImageBitmap(customBitmap.getBlank());
-
-    }
+//    public void paintColor(View view) {
+//
+//        if (customBitmap == null || customBitmap.getBlank() == null || color == null || viewIndex < 0)
+//            return;
+//
+//        Log.d(TAG, "paintColor: color is painting");
+//        Log.d(TAG, "paintColor: painting color " + "(" + Color.red(color) + ", " + Color.green(color) + ", " + Color.blue(color) + ")");
+//
+//
+//        Bitmap colored = customBitmap.getColored();
+//        Bitmap blank = customBitmap.getBlank();
+//
+//        for (int i = 0; i < blank.getHeight(); i++) {
+//            for (int j = 0; j < blank.getWidth(); j++) {
+//                if (colored.getPixel(j, i) == color) {
+//                    blank.setPixel(j, i, color);
+//                }
+//            }
+//        }
+//
+//        ColorView colorView = ((ColorView) findViewById(viewList.get(viewIndex)));
+//
+//        if (colors.size() > 0) colorView.setColor(colors.pop().getColor());
+//        else colorView.setVisibility(View.GONE);
+//
+//        color = -1;
+//        viewIndex = -1;
+//
+//        ((ImageView) findViewById(R.id.image_view_retrieved)).setImageBitmap(customBitmap.getBlank());
+//
+//    }
 
     public void selectColor(View view) {
 
@@ -331,20 +330,5 @@ public class ConversionActivity extends BaseActivity {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         return importFormat + "_" + timeStamp + ".jpg";
-    }
-
-    private File saveToInternalStorage(String fileName, Bitmap bitmap, File directory) {
-
-        File bitmapFile = new File(directory, fileName);
-        try {
-
-            FileOutputStream fos = new FileOutputStream(bitmapFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bitmapFile;
     }
 }

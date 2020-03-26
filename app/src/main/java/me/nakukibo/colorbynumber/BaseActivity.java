@@ -3,8 +3,11 @@ package me.nakukibo.colorbynumber;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public abstract class BaseActivity extends Activity {
 
@@ -26,5 +29,20 @@ public abstract class BaseActivity extends Activity {
 
     public File getBlankSubdirectory(){
         return new File(getImagesDirectory().toString() + File.separator + "blank");
+    }
+
+    public static File saveToInternalStorage(File directory, String fileName, Bitmap bitmap) {
+
+        File bitmapFile = new File(directory, fileName);
+        try {
+
+            FileOutputStream fos = new FileOutputStream(bitmapFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmapFile;
     }
 }
