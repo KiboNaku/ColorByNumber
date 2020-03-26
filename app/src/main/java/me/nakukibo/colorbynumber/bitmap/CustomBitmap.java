@@ -2,6 +2,7 @@ package me.nakukibo.colorbynumber.bitmap;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -14,6 +15,8 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
     public static final int CONVERT_COLORED = 1;
     public static final int CONVERT_BLANK = 2;
+
+    private static final String TAG = "CustomBitmap";
 
     private String fileName;
     private File originalDir;
@@ -37,14 +40,15 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     protected Void doInBackground(Integer... integers) {
 
         int code = integers[0];
-        Bitmap bitmap = ConversionActivity.getBitmap(originalDir, fileName);
-
-        if (uniqueColors == null) {
-            uniqueColors = BitmapConversion.getUniqueColors(bitmap);
-        }
 
         switch (code) {
             case CONVERT_COLORED:
+
+                Bitmap bitmap = ConversionActivity.getBitmap(originalDir, fileName);
+
+                if (uniqueColors == null) {
+                    uniqueColors = BitmapConversion.getUniqueColors(bitmap);
+                }
 
                 BitmapConversion.createColorGrouped(this, bitmap, uniqueColors, coloredDir, fileName);
                 break;
@@ -52,10 +56,19 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
                 Bitmap colored = ConversionActivity.getBitmap(coloredDir, fileName);
                 if (colored == null) {
-                    BitmapConversion.createColorGrouped(this, bitmap, uniqueColors, coloredDir, fileName);
+
+                    Bitmap original = ConversionActivity.getBitmap(originalDir, fileName);
+
+                    if (uniqueColors == null) {
+                        uniqueColors = BitmapConversion.getUniqueColors(original);
+                        Log.d(TAG, "doInBackground: CustomBitmap - number of Colors = " + uniqueColors.size());
+                    }
+
+                    BitmapConversion.createColorGrouped(this, original, uniqueColors, coloredDir, fileName);
+                    if (original != null) original.recycle();
                     colored = ConversionActivity.getBitmap(coloredDir, fileName);
                 }
-                BitmapConversion.createColorBlank(this, colored, uniqueColors, blankDir, fileName);
+                BitmapConversion.createColorBlank(this, colored, blankDir, fileName);
         }
 
         return null;

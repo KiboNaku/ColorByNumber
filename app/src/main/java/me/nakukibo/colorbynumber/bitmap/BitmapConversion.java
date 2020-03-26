@@ -35,13 +35,16 @@ class BitmapConversion {
         BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
     }
 
-    static void createColorBlank(CustomBitmap customBitmap, Bitmap bitmap, ColorSet uniqueColors, File dir, String fileName) {
+    static void createColorBlank(CustomBitmap customBitmap, Bitmap bitmap, File dir, String fileName) {
 
         Log.d(TAG, "createColorBlank: creating blank bitmap");
 
         final int HEIGHT = bitmap.getHeight();
         final int WIDTH = bitmap.getWidth();
         final int MAX_UPDATES = 100;
+
+        int[] trailingColorsPrev = new int[WIDTH];
+        int[] trailingColorsSame = new int[WIDTH];
 
         int updateCountDown = Math.min(WIDTH * HEIGHT / MAX_UPDATES, HEIGHT);
         int count = updateCountDown;
@@ -50,31 +53,36 @@ class BitmapConversion {
 
         for (int i = 0; i < bitmap.getHeight(); i++) {
             for (int j = 0; j < bitmap.getWidth(); j++) {
-                setColorBlankPixel(bitmap, uniqueColors, new PixelCoordinates(j, i));
+
+                setColorBlankPixel(bitmap, new PixelCoordinates(j, i), trailingColorsPrev, trailingColorsSame);
                 count--;
                 if (count <= 0) {
                     customBitmap.updateProgress(bitmap);
                     count = updateCountDown;
                 }
             }
+
+            int[] temp = trailingColorsPrev;
+            trailingColorsPrev = trailingColorsSame;
+            trailingColorsSame = temp;
         }
 
         BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
     }
 
     private static void setColorGroupedPixel(Bitmap bitmap, ColorSet uniqueColors,
-                                             PixelCoordinates nextFalse, boolean[][] changedColor) {
+                                             PixelCoordinates coordinate, boolean[][] changedColor) {
 
-        MColor pixel = new MColor(bitmap.getPixel(nextFalse.x, nextFalse.y));
+        MColor pixel = new MColor(bitmap.getPixel(coordinate.x, coordinate.y));
         pixel = uniqueColors.getClosestColor(pixel);
 
-        changedColor[nextFalse.y][nextFalse.x] = true;
+        changedColor[coordinate.y][coordinate.x] = true;
 
         LinkedList<PixelCoordinates> surColors = new LinkedList<>();
         LinkedList<PixelCoordinates> changedColors = new LinkedList<>();
 
-        surColors.add(new PixelCoordinates(nextFalse.x, nextFalse.y));
-        changedColors.add(new PixelCoordinates(nextFalse.x, nextFalse.y));
+        surColors.add(new PixelCoordinates(coordinate.x, coordinate.y));
+        changedColors.add(new PixelCoordinates(coordinate.x, coordinate.y));
 
         while (!surColors.isEmpty()) {
             PixelCoordinates pixelCoordinates = surColors.pop();
@@ -87,38 +95,37 @@ class BitmapConversion {
         }
     }
 
-    private static void setColorBlankPixel(Bitmap bitmap, ColorSet uniqueColors,
-                                           PixelCoordinates nextFalse) {
+    private static void setColorBlankPixel(Bitmap bitmap, PixelCoordinates coordinates, int[] trailingColorsPrev,
+                                           int[] trailingColorsSame) {
 
-        MColor pixel = new MColor(bitmap.getPixel(nextFalse.x, nextFalse.y));
-        int sameColorNeighbors = getNumSameColorNeighbors(bitmap, pixel, uniqueColors, nextFalse);
+        final int MAX_NEIGHBORS = 4;
 
-        if (sameColorNeighbors < 9) {
-            bitmap.setPixel(nextFalse.x, nextFalse.y, Color.BLACK);
-        } else {
-            bitmap.setPixel(nextFalse.x, nextFalse.y, Color.WHITE);
-        }
+        int pixel = bitmap.getPixel(coordinates.x, coordinates.y);
+        int sameColorNeighbors = getNumSameColorNeighbors(bitmap, pixel, coordinates, trailingColorsPrev, trailingColorsSame);
+
+        trailingColorsSame[coordinates.x] = pixel;
+        bitmap.setPixel(coordinates.x, coordinates.y, sameColorNeighbors >= MAX_NEIGHBORS ? Color.WHITE : Color.BLACK);
     }
 
-    private static int getNumSameColorNeighbors(Bitmap bitmap, MColor color, ColorSet colorSet, PixelCoordinates coordinates) {
+    private static int getNumSameColorNeighbors(Bitmap bitmap, int color, PixelCoordinates coordinates,
+                                                int[] trailingColorsPrev, int[] trailingColorsSame) {
 
         int neighbors = 0;
 
-        int minX = coordinates.x > 0 ? coordinates.x - 1 : coordinates.x;
-        int maxX = coordinates.x < bitmap.getWidth() - 1 ? coordinates.x + 1 : coordinates.x;
+        if (coordinates.y > 0) {
+            if (trailingColorsPrev[coordinates.x] == color) neighbors++;
+        }
 
-        int minY = coordinates.y > 0 ? coordinates.y - 1 : coordinates.y;
-        int maxY = coordinates.y < bitmap.getHeight() - 1 ? coordinates.y + 1 : coordinates.y;
+        if (coordinates.x > 0) {
+            if (trailingColorsSame[coordinates.x - 1] == color) neighbors++;
+        }
 
-        for (int i = minY; i <= maxY; i++) {
-            for (int j = minX; j <= maxX; j++) {
+        if (coordinates.y < bitmap.getHeight() - 1) {
+            if (bitmap.getPixel(coordinates.x, coordinates.y + 1) == color) neighbors++;
+        }
 
-                MColor nColor = new MColor(bitmap.getPixel(j, i));
-
-                if (nColor.distanceSqrFrom(color) <= colorSet.getMinDistSqr()) {
-                    neighbors++;
-                }
-            }
+        if (coordinates.x < bitmap.getWidth() - 1) {
+            if (bitmap.getPixel(coordinates.x + 1, coordinates.y) == color) neighbors++;
         }
 
         return neighbors;
