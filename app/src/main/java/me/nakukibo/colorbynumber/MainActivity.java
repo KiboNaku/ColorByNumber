@@ -16,10 +16,11 @@ import java.io.File;
 
 //TODO: reduce the minimum sdk required
 
-public class MainActivity extends ColoringAppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     public static final String FILE_NAME = "filename";
+
     private static final int REQUEST_CODE_WRITE_EXT = 0;
     private static final int REQUEST_CODE_READ_EXT = 1;
 
@@ -169,8 +170,7 @@ public class MainActivity extends ColoringAppCompatActivity {
     private void loadImageFromStorage() {
 
 //        try {
-//            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-//            File directory = cw.getDir("images", Context.MODE_PRIVATE);
+//            File directory = getOriginalSubdirectory();
 //
 //            File[] files = directory.listFiles();
 //
@@ -183,15 +183,15 @@ public class MainActivity extends ColoringAppCompatActivity {
 //                File file = new File(directory, files[i].getName());
 //                file.delete();
 //            }
-
+//
 //            fileName = files[0].getName();
-
+//
 //            File f = new File(directory, fileName);
 //            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
 //            ImageView img = findViewById(R.id.image_view_loaded);
 //            img.setImageBitmap(b);
 //        }
-//        catch (FileNotFoundException e)
+//        catch (FileNotFoundException | NullPointerException e)
 //        {
 //            e.printStackTrace();
 //        }

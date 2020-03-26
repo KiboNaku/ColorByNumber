@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class ColoringActivity extends ColoringAppCompatActivity {
+public class ColoringActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

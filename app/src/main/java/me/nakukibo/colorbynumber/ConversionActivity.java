@@ -32,10 +32,12 @@ import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.color.ColorView;
 
 
-public class ConversionActivity extends ColoringAppCompatActivity {
+public class ConversionActivity extends BaseActivity {
+
+    public static final String FILE_NAME = "filepath";
 
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
-    private static final int REQUEST_CODE_READ_gallery = 2;
+    private static final int REQUEST_CODE_READ_GALLERY = 2;
 
     private static final int LAUNCH_CODE_CAMERA = 1;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 2;
@@ -57,7 +59,7 @@ public class ConversionActivity extends ColoringAppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_importer);
+        setContentView(R.layout.activity_conversion);
 
         Button buttonLaunchCamera = findViewById(R.id.button_launch_camera);
         buttonLaunchCamera.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +97,7 @@ public class ConversionActivity extends ColoringAppCompatActivity {
 
                     ActivityCompat.requestPermissions(ConversionActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            REQUEST_CODE_READ_gallery);
+                            REQUEST_CODE_READ_GALLERY);
                 } else {
                     launchGallery();
                 }
@@ -124,7 +126,7 @@ public class ConversionActivity extends ColoringAppCompatActivity {
                     Toast.makeText(this, "Cannot open camera. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
                 }
             }
-        } else if (requestCode == REQUEST_CODE_READ_gallery) {
+        } else if (requestCode == REQUEST_CODE_READ_GALLERY) {
 
             if (grantResults.length > 1) {
 
@@ -215,11 +217,16 @@ public class ConversionActivity extends ColoringAppCompatActivity {
 
     private void useBitmap(Bitmap selectedImage, String importFormat) {
 
-        selectedImage = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
-//        saveToInternalStorage(getNewBitmapName(importFormat), selectedImage, getOriginalSubdirectory());
+        String fileName = getNewBitmapName(importFormat);
+
+        File originalFile = saveToInternalStorage(fileName, selectedImage, getOriginalSubdirectory());
 
         ImageView photoImageView = findViewById(R.id.image_view_retrieved);
         photoImageView.setImageBitmap(selectedImage);
+
+        Intent intent = new Intent(this, ImportPopup.class);
+        intent.putExtra(FILE_NAME, fileName);
+        startActivity(intent);
 
 //                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
 //                    @Override
