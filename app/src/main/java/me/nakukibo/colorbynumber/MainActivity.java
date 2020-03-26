@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
         if(!success) return false;
 
 
-        success = createDirectory(getOriginalSubdirectory(), "creating sub colored directory: ");
+        success = createDirectory(getColoredSubdirectory(), "creating sub colored directory: ");
         if(!success) return false;
 
         success = createDirectory(getBlankSubdirectory(), "creating sub blank directory: ");
@@ -97,6 +97,8 @@ public class MainActivity extends BaseActivity {
     private boolean createDirectory(File dir, String logHead){
 
         boolean success = true;
+
+        Log.d(TAG, "createDirectory: creating directory path =  " + dir.getPath());
 
         if(!dir.exists()) {
             success = dir.mkdir();
