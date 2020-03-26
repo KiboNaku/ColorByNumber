@@ -7,6 +7,7 @@ import java.io.File;
 
 import me.nakukibo.colorbynumber.ConversionActivity;
 import me.nakukibo.colorbynumber.color.ColorSet;
+import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 
 public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
 
@@ -70,10 +71,6 @@ public class CustomBitmap extends AsyncTask<Integer, Void, Void> {
 
     public void setOnCompleteListener(OnCompleteListener onCompleteListener) {
         this.onCompleteListener = onCompleteListener;
-    }
-
-    interface OnCompleteListener {
-        void onComplete();
     }
 }
 
