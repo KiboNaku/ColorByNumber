@@ -218,6 +218,45 @@ public class ConversionActivity extends BaseActivity {
 
     private void useBitmap(Bitmap selectedImage, String importFormat) {
 
+        final int MAX_RES_BIG = 1600;
+        final int MAX_RES_SM = 900;
+
+        int width = selectedImage.getWidth();
+        int height = selectedImage.getHeight();
+
+        Log.d(TAG, "useBitmap: image sizing (w x h): " + width + " x " + height);
+
+        if(width > height){
+
+            double bigScale = width/(double) MAX_RES_BIG;
+            double smScale = height/(double) MAX_RES_SM;
+
+            if(bigScale > smScale){
+                width = MAX_RES_BIG;
+                height = (int) Math.floor(height/bigScale);
+            } else {
+                height = MAX_RES_SM;
+                width = (int) Math.floor(width/smScale);
+            }
+        }else {
+
+            double bigScale = height/(double) MAX_RES_BIG;
+            double smScale = width/(double) MAX_RES_SM;
+
+            if(bigScale > smScale){
+                height = MAX_RES_BIG;
+                width = (int) Math.floor(width/bigScale);
+            } else {
+                width = MAX_RES_SM;
+                height = (int) Math.floor(height/smScale);
+            }
+
+        }
+
+        Log.d(TAG, "useBitmap: new image sizing (w x h): " + width + " x " + height);
+
+        selectedImage = Bitmap.createScaledBitmap(selectedImage, width, height, true);
+
         String fileName = getNewBitmapName(importFormat);
 
         File originalFile = saveToInternalStorage(getOriginalSubdirectory(), fileName, selectedImage);

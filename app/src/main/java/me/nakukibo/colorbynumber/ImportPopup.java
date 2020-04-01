@@ -22,7 +22,7 @@ public class ImportPopup extends BaseActivity {
     }
 
     private void startConversion() {
-
+        
         final ImageView imageView = findViewById(R.id.image_view_import);
         final String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
 
@@ -32,6 +32,8 @@ public class ImportPopup extends BaseActivity {
             @Override
             public void onComplete() {
                 imageView.setImageBitmap(getBitmap(getBlankSubdirectory(), fileName));
+
+                printAllImageFiles();
             }
         });
         customBitmap.setUpdateView(imageView);

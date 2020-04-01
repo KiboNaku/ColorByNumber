@@ -56,6 +56,36 @@ public abstract class BaseActivity extends Activity {
         return bitmap;
     }
 
+    public void printAllImageFiles(){
+
+        Log.d(TAG, "printAllImageFiles: printing original:");
+        printAllImageFiles(getOriginalSubdirectory());
+        Log.d(TAG, "printAllImageFiles: printing colored:");
+        printAllImageFiles(getColoredSubdirectory());
+        Log.d(TAG, "printAllImageFiles: printing blank:");
+        printAllImageFiles(getBlankSubdirectory());
+    }
+
+    public void printAllImageFiles(File directory){
+
+        try {
+            File[] files = directory.listFiles();
+
+            if(files == null) return;
+
+            Log.d("Files", "Size: "+ files.length);
+            for (File f: files) {
+                Log.d("Files", "FileName:" + f.getName());
+                File file = new File(directory, f.getName());
+                file.delete();
+            }
+
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public ContextWrapper getAppCW() {
         return new ContextWrapper(getApplicationContext());
     }
