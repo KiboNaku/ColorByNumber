@@ -81,6 +81,7 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     @Override
     protected void onProgressUpdate(Bitmap... values) {
         super.onProgressUpdate(values);
+
         if (updateView != null) updateView.setImageBitmap(values[0]);
     }
 

@@ -39,6 +39,7 @@ public class ConversionActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_FETCH_PHOTO = 1;
     private static final int REQUEST_CODE_READ_GALLERY = 2;
+    private static final int REQUEST_CODE_OPEN_POPUP = 3;
 
     private static final int LAUNCH_CODE_CAMERA = 1;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 2;
@@ -156,6 +157,18 @@ public class ConversionActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == REQUEST_CODE_OPEN_POPUP){
+
+            //TODO: add actions based on result
+            printAllImageFiles();
+
+            if(resultCode == RESULT_OK){
+
+            } else if(resultCode == RESULT_CANCELED){
+
+            }
+        }
+
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_FETCH_PHOTO) {
 
@@ -266,7 +279,7 @@ public class ConversionActivity extends BaseActivity {
 
         Intent intent = new Intent(this, ImportPopup.class);
         intent.putExtra(FILE_NAME, fileName);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_OPEN_POPUP);
 
 //                customBitmap = new CustomBitmap(imageBitmap, new CustomBitmap.OnCompleteListener() {
 //                    @Override

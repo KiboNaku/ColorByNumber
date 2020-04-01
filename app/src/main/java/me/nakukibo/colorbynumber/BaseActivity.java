@@ -73,15 +73,13 @@ public abstract class BaseActivity extends Activity {
 
             if(files == null) return;
 
-            Log.d("Files", "Size: "+ files.length);
+            Log.d(TAG, "printAllImageFiles: Size = " + files.length);
+
             for (File f: files) {
-                Log.d("Files", "FileName:" + f.getName());
-                File file = new File(directory, f.getName());
-                file.delete();
+                Log.d(TAG, "printAllImageFiles: FileName = " + f.getName());
             }
 
-        } catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }

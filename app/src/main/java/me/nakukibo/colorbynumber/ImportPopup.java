@@ -1,8 +1,14 @@
 package me.nakukibo.colorbynumber;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
 
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
@@ -10,6 +16,9 @@ import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 public class ImportPopup extends BaseActivity {
 
     private static final String TAG = "ImportPopup";
+    private String fileName = null;
+    private boolean finishedColor = false;
+    private CustomBitmap coloredCustomBitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,24 +30,58 @@ public class ImportPopup extends BaseActivity {
         startConversion();
     }
 
+    public void acceptImage(View view){
+
+        if(finishedColor){
+
+            CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
+            customBitmap.setUpdateView(null);
+            customBitmap.execute(CustomBitmap.CONVERT_BLANK);
+
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        } else {
+            Toast.makeText(this, "Please wait until image is finished.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void rejectImage(View view){
+
+        coloredCustomBitmap.cancel(true);
+
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_CANCELED, intent);
+
+        File original = new File(getOriginalSubdirectory(), fileName);
+        original.delete();
+
+        if(finishedColor){
+            File colored = new File(getColoredSubdirectory(), fileName);
+            colored.delete();
+        }
+
+        finish();
+    }
+
     private void startConversion() {
-        
+
         final ImageView imageView = findViewById(R.id.image_view_import);
-        final String fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
+        fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
 
-        CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
+        coloredCustomBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
 
-        customBitmap.setOnCompleteListener(new OnCompleteListener() {
+        coloredCustomBitmap.setOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete() {
-                imageView.setImageBitmap(getBitmap(getBlankSubdirectory(), fileName));
+                imageView.setImageBitmap(getBitmap(getColoredSubdirectory(), fileName));
+                finishedColor = true;
 
-                printAllImageFiles();
             }
         });
-        customBitmap.setUpdateView(imageView);
+        coloredCustomBitmap.setUpdateView(imageView);
 
-        customBitmap.execute(CustomBitmap.CONVERT_BLANK);
+        coloredCustomBitmap.execute(CustomBitmap.CONVERT_COLORED);
     }
 
     private void setWindow() {

@@ -28,11 +28,14 @@ class BitmapConversion {
         PixelCoordinates pixelCoordinates;
 
         while ((pixelCoordinates = getNextFalseInArray(changedColor)) != null) {
+
+            if(customBitmap.isCancelled()) break;
+
             setColorGroupedPixel(bitmap, uniqueColors, pixelCoordinates, changedColor);
             customBitmap.updateProgress(bitmap);
         }
 
-        BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
+        if(!customBitmap.isCancelled()) BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
     }
 
     static void createColorBlank(CustomBitmap customBitmap, Bitmap bitmap, File dir, String fileName) {
@@ -52,7 +55,12 @@ class BitmapConversion {
         bitmap = bitmap.copy(bitmap.getConfig(), true);
 
         for (int i = 0; i < bitmap.getHeight(); i++) {
+
+            if(customBitmap.isCancelled()) break;
+
             for (int j = 0; j < bitmap.getWidth(); j++) {
+
+                if(customBitmap.isCancelled()) break;
 
                 setColorBlankPixel(bitmap, new PixelCoordinates(j, i), trailingColorsPrev, trailingColorsSame);
                 count--;
@@ -67,7 +75,7 @@ class BitmapConversion {
             trailingColorsSame = temp;
         }
 
-        BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
+        if(!customBitmap.isCancelled()) BaseActivity.saveToInternalStorage(dir, fileName, bitmap);
     }
 
     private static void setColorGroupedPixel(Bitmap bitmap, ColorSet uniqueColors,
