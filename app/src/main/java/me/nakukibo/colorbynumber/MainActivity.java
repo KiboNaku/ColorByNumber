@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private boolean permissionsGranted = true;
 
     //TODO: add shared preferences to timestamp most recent images
+    // TODO: add placeholders and stuff later
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,20 @@ public class MainActivity extends BaseActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         Log.d(TAG, "onCreate: width=" + screenWidth + ", height=" + screenHeight);
+
+        printAllImageFiles();
+        File[] files = getColoredSubdirectory().listFiles();
+        if(files != null) {
+            ColorImage[] colorImages = new ColorImage[files.length];
+
+            for(int i=0; i<files.length; i++){
+                colorImages[i] = new ColorImage(files[i].getName());
+            }
+
+            ListView imgList = findViewById(R.id.images_list);
+            imgList.setAdapter(new ImageListAdapter(this, colorImages));
+
+        }
 
         permissionActivities();
         printAllImageFiles();
