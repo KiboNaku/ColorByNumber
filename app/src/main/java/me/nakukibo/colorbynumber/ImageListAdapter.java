@@ -12,9 +12,11 @@ import androidx.annotation.Nullable;
 
 import java.io.File;
 
-import static me.nakukibo.colorbynumber.BaseActivity.getBitmap;
+import me.nakukibo.colorbynumber.utils.GlideApp;
 
 public class ImageListAdapter extends ArrayAdapter<ColorImage> {
+
+    private static final String TAG = "ImageListAdapter";
 
     private BaseActivity context;
     private ColorImage[] images;
@@ -29,6 +31,8 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        //TODO: add error and other fallback images to GlideApp
+
         View colorImageView = convertView;
 
         if(colorImageView == null){
@@ -39,14 +43,11 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
         ColorImage colorImage = images[position];
         ImageView imageView = colorImageView.findViewById(R.id.image_display);
 
-//        GlideApp
-//                .with(context)
-//                .load(new File(dir, colorImage.getFileName()))
-//                .error(R.id.button_cancel)
-//                .centerCrop()
-//                .into(imageView);
-
-        imageView.setImageBitmap(getBitmap(context.getColoredSubdirectory(), colorImage.getFileName().substring(0, colorImage.getFileName().length()-4)));
+        GlideApp
+                .with(context)
+                .load(new File(dir, colorImage.getFileName()))
+                .centerCrop()
+                .into(imageView);
 
         TextView imgName = colorImageView.findViewById(R.id.image_name);
         imgName.setText(colorImage.getImageName());
