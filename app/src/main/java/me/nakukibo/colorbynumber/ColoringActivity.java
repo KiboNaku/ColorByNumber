@@ -1,7 +1,5 @@
 package me.nakukibo.colorbynumber;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -19,8 +17,7 @@ public class ColoringActivity extends BaseActivity {
         setContentView(R.layout.activity_coloring);
 
         String fileName = getIntent().getStringExtra(MainActivity.FILE_NAME);
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("images", Context.MODE_PRIVATE);
+        File directory = getBlankSubdirectory();
 
         File f = new File(directory, fileName);
 

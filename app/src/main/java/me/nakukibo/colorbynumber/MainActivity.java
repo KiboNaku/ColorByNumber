@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +29,6 @@ public class MainActivity extends BaseActivity {
     private static final int REQUEST_CODE_WRITE_EXT = 0;
     private static final int REQUEST_CODE_READ_EXT = 1;
 
-    private String fileName = null;
     private boolean permissionsGranted = true;
 
     //TODO: add shared preferences to timestamp most recent images
@@ -59,6 +59,19 @@ public class MainActivity extends BaseActivity {
 
             ListView imgList = findViewById(R.id.images_list);
             imgList.setAdapter(new ImageListAdapter(this, colorImages));
+
+            imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (permissionsGranted) {
+                        Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
+                        intent.putExtra(FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
         }
 
@@ -143,17 +156,6 @@ public class MainActivity extends BaseActivity {
 
         if (permissionsGranted) {
             Intent intent = new Intent(this, ConversionActivity.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void launchColoring(View view) {
-
-        if (permissionsGranted) {
-            Intent intent = new Intent(this, ColoringActivity.class);
-            intent.putExtra(FILE_NAME, fileName);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
