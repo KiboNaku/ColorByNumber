@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,11 @@ public class MainActivity extends BaseActivity {
     private static final int REQUEST_CODE_READ_EXT = 1;
 
     private boolean permissionsGranted = true;
+
+    private FloatingActionButton btnMenu;
+    private FloatingActionButton btnCamera;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton btnGallery;
+    private boolean menuOn;
 
     //TODO: add shared preferences to timestamp most recent images
     // TODO: add placeholders and stuff later
@@ -77,6 +84,21 @@ public class MainActivity extends BaseActivity {
 
         }
 
+        btnMenu = findViewById(R.id.btn_menu);
+        btnCamera = findViewById(R.id.btn_camera);
+        btnGallery = findViewById(R.id.btn_gallery);
+
+        hideMenu();
+        showMenu();
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: toggling menu");
+                if (menuOn) hideMenu();
+                else showMenu();
+            }
+        });
+
         permissionActivities();
         printAllImageFiles();
     }
@@ -85,6 +107,24 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadImageFromStorage();
+    }
+
+    public void hideMenu() {
+        menuOn = false;
+
+        btnMenu.show();
+        btnMenu.setScaleX(1);
+        btnCamera.hide();
+        btnGallery.hide();
+    }
+
+    public void showMenu() {
+        menuOn = true;
+
+        btnMenu.show();
+        btnMenu.setScaleX(-1);
+        btnCamera.show();
+        btnGallery.show();
     }
 
     private void permissionActivities() {
