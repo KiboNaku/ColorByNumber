@@ -10,7 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
+import java.util.List;
 
 import me.nakukibo.colorbynumber.utils.GlideApp;
 
@@ -19,9 +22,9 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
     private static final String TAG = "ImageListAdapter";
 
     private BaseActivity context;
-    private ColorImage[] images;
+    private List<ColorImage> images;
 
-    public ImageListAdapter(@NonNull BaseActivity context, @NonNull ColorImage[] objects) {
+    public ImageListAdapter(@NonNull BaseActivity context, @NonNull List<ColorImage> objects) {
         super(context, R.layout.color_image, objects);
         this.context = context;
         this.images = objects;
@@ -29,7 +32,7 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         //TODO: add error and other fallback images to GlideApp
 
@@ -40,8 +43,18 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
         }
 
         File dir = context.getColoredSubdirectory();
-        ColorImage colorImage = images[position];
+        final ColorImage colorImage = images.get(position);
         ImageView imageView = colorImageView.findViewById(R.id.image_display);
+
+        FloatingActionButton btnDel = colorImageView.findViewById(R.id.btn_delete);
+        btnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                images.remove(position);
+                context.deleteImage(colorImage.getFileName());
+                notifyDataSetChanged();
+            }
+        });
 
         GlideApp
                 .with(context)

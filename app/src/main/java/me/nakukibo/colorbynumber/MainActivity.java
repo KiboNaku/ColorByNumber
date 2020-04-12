@@ -18,6 +18,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO: reduce the minimum sdk required
 
@@ -51,10 +53,10 @@ public class MainActivity extends BaseActivity {
         printAllImageFiles();
         File[] files = getColoredSubdirectory().listFiles();
         if(files != null) {
-            ColorImage[] colorImages = new ColorImage[files.length];
+            List<ColorImage> colorImages = new ArrayList<>();
 
             for(int i=0; i<files.length; i++){
-                colorImages[i] = new ColorImage(files[i].getName());
+                colorImages.add(new ColorImage(files[i].getName()));
             }
 
             ListView imgList = findViewById(R.id.images_list);

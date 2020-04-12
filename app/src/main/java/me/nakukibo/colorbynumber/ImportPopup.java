@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
-
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 import me.nakukibo.colorbynumber.utils.OnUpdateListener;
@@ -54,13 +52,7 @@ public class ImportPopup extends BaseActivity {
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);
 
-        File original = new File(getOriginalSubdirectory(), fileName);
-        original.delete();
-
-        if(finishedColor){
-            File colored = new File(getColoredSubdirectory(), fileName);
-            colored.delete();
-        }
+        deleteImage(fileName);
 
         finish();
     }

@@ -84,6 +84,16 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
+    public void deleteImage(String fileName) {
+        File original = new File(getOriginalSubdirectory(), fileName);
+        File colored = new File(getColoredSubdirectory(), fileName);
+        File blank = new File(getBlankSubdirectory(), fileName);
+
+        original.delete();
+        colored.delete();
+        blank.delete();
+    }
+
     public ContextWrapper getAppCW() {
         return new ContextWrapper(getApplicationContext());
     }
