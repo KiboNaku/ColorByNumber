@@ -2,6 +2,7 @@ package me.nakukibo.colorbynumber;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.io.File;
 
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
+import me.nakukibo.colorbynumber.utils.OnUpdateListener;
 
 public class ImportPopup extends BaseActivity {
 
@@ -35,7 +37,6 @@ public class ImportPopup extends BaseActivity {
         if(finishedColor){
 
             CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
-            customBitmap.setUpdateView(null);
             customBitmap.execute(CustomBitmap.CONVERT_BLANK);
 
             Intent intent = new Intent();
@@ -79,7 +80,12 @@ public class ImportPopup extends BaseActivity {
 
             }
         });
-        coloredCustomBitmap.setUpdateView(imageView);
+        coloredCustomBitmap.setOnUpdateListener(new OnUpdateListener() {
+            @Override
+            public void onUpdate(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
 
         coloredCustomBitmap.execute(CustomBitmap.CONVERT_COLORED);
     }

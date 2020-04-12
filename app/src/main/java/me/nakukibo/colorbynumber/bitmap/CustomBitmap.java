@@ -3,13 +3,13 @@ package me.nakukibo.colorbynumber.bitmap;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.io.File;
 
 import me.nakukibo.colorbynumber.ConversionActivity;
 import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
+import me.nakukibo.colorbynumber.utils.OnUpdateListener;
 
 public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
@@ -22,8 +22,8 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     private File originalDir;
     private File coloredDir;
     private File blankDir;
-    private ImageView updateView;
     private ColorSet uniqueColors;
+    private OnUpdateListener onUpdateListener;
     private OnCompleteListener onCompleteListener;
 
     public CustomBitmap(String fileName, File originalDir, File coloredDir, File blankDir) {
@@ -31,9 +31,10 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         this.originalDir = originalDir;
         this.coloredDir = coloredDir;
         this.blankDir = blankDir;
-        this.updateView = null;
-        this.uniqueColors = null;
-        this.onCompleteListener = null;
+
+        uniqueColors = null;
+        onUpdateListener = null;
+        onCompleteListener = null;
     }
 
     @Override
@@ -82,7 +83,7 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     protected void onProgressUpdate(Bitmap... values) {
         super.onProgressUpdate(values);
 
-        if (updateView != null) updateView.setImageBitmap(values[0]);
+        if (onUpdateListener != null) onUpdateListener.onUpdate(values[0]);
     }
 
     @Override
@@ -94,8 +95,8 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         }
     }
 
-    public void setUpdateView(ImageView updateView) {
-        this.updateView = updateView;
+    public void setOnUpdateListener(OnUpdateListener onUpdateListener) {
+        this.onUpdateListener = onUpdateListener;
     }
 
     public void setOnCompleteListener(OnCompleteListener onCompleteListener) {
