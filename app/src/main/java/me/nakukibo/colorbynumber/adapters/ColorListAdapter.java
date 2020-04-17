@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import me.nakukibo.colorbynumber.BaseActivity;
-import me.nakukibo.colorbynumber.R;
 
 public class ColorListAdapter extends ArrayAdapter<Integer> {
 
@@ -18,7 +17,8 @@ public class ColorListAdapter extends ArrayAdapter<Integer> {
     private Integer[] colors;
 
     public ColorListAdapter(@NonNull BaseActivity context, @NonNull Integer[] colors) {
-        super(context, R.layout.color_image, colors);
+
+        super(context, android.R.layout.simple_list_item_1, colors);
         this.context = context;
         this.colors = colors;
     }

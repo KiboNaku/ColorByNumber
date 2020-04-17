@@ -19,7 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import me.nakukibo.colorbynumber.fragments.FloatingMenuFragment;
+import me.nakukibo.colorbynumber.menu.FloatingMenuFragment;
+import me.nakukibo.colorbynumber.menu.MenuItem;
 
 //TODO: reduce the minimum sdk required
 
@@ -30,7 +31,11 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_WRITE_EXT = 0;
     private static final int REQUEST_CODE_READ_EXT = 1;
+    private static final int REQUEST_CODE_FETCH_PHOTO = 11;
+    private static final int REQUEST_CODE_READ_GALLERY = 12;
     private static final int REQUEST_CODE_OPEN_POPUP = 13;
+    private static final int LAUNCH_CODE_CAMERA = 21;
+    private static final int LAUNCH_CODE_OPEN_GALLERY = 22;
 
     private boolean permissionsGranted = false;
     private FloatingMenuFragment floatingMenuFragment;
@@ -81,18 +86,188 @@ public class MainActivity extends BaseActivity {
 //
 //        }
 
-
-
         floatingMenuFragment = new FloatingMenuFragment();
+
+        floatingMenuFragment.addMenuItem(new MenuItem(getDrawable(android.R.drawable.ic_menu_camera)) {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        floatingMenuFragment.addMenuItem(new MenuItem(getDrawable(android.R.drawable.ic_menu_gallery)) {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.floating_menu, floatingMenuFragment)
                 .commit();
 
+
+//
+//        btnCamera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (hasCameraHardware(getContext())) {
+//
+//                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
+//                            != PackageManager.PERMISSION_GRANTED ||
+//                            ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                        ActivityCompat.requestPermissions(getActivity(),
+//                                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                                LAUNCH_CODE_CAMERA);
+//                    } else {
+//                        launchCamera();
+//                    }
+//                } else {
+//                    Toast.makeText(getContext(), "Cannot open camera. No hardware camera detected.", Toast.LENGTH_LONG).show();
+//                }
+//
+//            }
+//        });
+//
+//        btnGallery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                                != PackageManager.PERMISSION_GRANTED) {
+//
+//                    ActivityCompat.requestPermissions(getActivity(),
+//                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                            REQUEST_CODE_READ_GALLERY);
+//                } else {
+//                    launchGallery();
+//                }
+//            }
+//        });
 //        hideMenu();
 //        permissionActivities();
 //        printAllImageFiles();
     }
+
+    //
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+//                                           @NonNull int[] grantResults) {
+//
+//        if (requestCode == LAUNCH_CODE_CAMERA) {
+//
+//            if (grantResults.length > 1) {
+//
+//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//                    launchCamera();
+//                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getContext(), "Cannot open camera. Camera permission not given.", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(getContext(), "Cannot open camera. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        } else if (requestCode == REQUEST_CODE_READ_GALLERY) {
+//
+//            if (grantResults.length > 1) {
+//
+//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//                    launchGallery();
+//                } else if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getContext(), "Cannot open gallery. Gallery permission not given.", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(getContext(), "Cannot open gallery. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == REQUEST_CODE_FETCH_PHOTO) {
+//
+//                final String IMPORT = "camera";
+//
+//                View loadingBar = getActivity().findViewById(R.id.progress_bar_load_image);
+//                final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
+//
+//                Bundle extras = data.getExtras();
+//                if (extras == null) {
+//                    Toast.makeText(getContext(), ERROR_NULL, Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//
+//                Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                if (imageBitmap == null) {
+//                    Toast.makeText(getContext(), ERROR_NULL, Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//
+//                loadingBar.setVisibility(View.VISIBLE);
+////                useBitmap(imageBitmap, IMPORT);
+//                loadingBar.setVisibility(View.INVISIBLE);
+//
+//            } else if (requestCode == LAUNCH_CODE_OPEN_GALLERY) {
+//
+//                final String IMPORT = "gallery";
+//
+//                Log.d(TAG, "onActivityResult: fetching photo from gallery");
+//
+//                View loadingBar = getActivity().findViewById(R.id.progress_bar_load_image);
+//                loadingBar.setVisibility(View.VISIBLE);
+//
+//                Bitmap selectedImage = null;
+//
+//                try {
+//
+//                    final Uri imageUri = data.getData();
+//
+//                    if (imageUri != null) {
+//                        selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if (selectedImage == null) {
+//
+//                    Toast.makeText(getContext(), "Failed to retrieve image.", Toast.LENGTH_LONG).show();
+//                } else {
+////                    useBitmap(selectedImage, IMPORT);
+//                }
+//
+//                loadingBar.setVisibility(View.INVISIBLE);
+//            }
+//        } else {
+//            Toast.makeText(getContext(), "Failed to retrieve result.", Toast.LENGTH_LONG).show();
+//        }
+//    }
+//
+//    private void launchGallery() {
+//        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(i, LAUNCH_CODE_OPEN_GALLERY);
+//    }
+//
+//    private void launchCamera() {
+//
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_CODE_FETCH_PHOTO);
+//        } else {
+//            Toast.makeText(getContext(), "Unexpected error: failed to launch camera.", Toast.LENGTH_LONG).show();
+//        }
+//    }
+
+//    private boolean hasCameraHardware(Context context) {
+//        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+//    }
 
     private void useBitmap(Bitmap selectedImage, String importFormat) {
 
