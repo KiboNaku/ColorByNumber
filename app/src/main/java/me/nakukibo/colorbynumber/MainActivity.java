@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import me.nakukibo.colorbynumber.fragments.FloatingMenuFragment;
+
 //TODO: reduce the minimum sdk required
 
 public class MainActivity extends BaseActivity {
@@ -117,7 +119,7 @@ public class MainActivity extends BaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .show(floatingMenuFragment)
+                .hide(floatingMenuFragment)
                 .commit();
     }
 

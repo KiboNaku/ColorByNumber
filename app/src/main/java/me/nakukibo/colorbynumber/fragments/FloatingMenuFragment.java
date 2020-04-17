@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.fragments;
 
 
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
+
+import me.nakukibo.colorbynumber.R;
+import me.nakukibo.colorbynumber.adapters.DrawableListAdapter;
 
 
 /**

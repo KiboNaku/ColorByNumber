@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import me.nakukibo.colorbynumber.R;
 
 public class DrawableListAdapter extends ArrayAdapter<Drawable> {
 

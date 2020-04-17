@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.color;
 
 public class ColorImage {
 

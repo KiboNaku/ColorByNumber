@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import me.nakukibo.colorbynumber.R;
 
 public class FloatingMenu extends LinearLayout {
 

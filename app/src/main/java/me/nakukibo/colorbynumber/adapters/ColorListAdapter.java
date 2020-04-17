@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.adapters;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -6,6 +6,9 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import me.nakukibo.colorbynumber.BaseActivity;
+import me.nakukibo.colorbynumber.R;
 
 public class ColorListAdapter extends ArrayAdapter<Integer> {
 

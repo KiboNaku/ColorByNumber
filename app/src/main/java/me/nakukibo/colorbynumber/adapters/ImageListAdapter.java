@@ -1,4 +1,4 @@
-package me.nakukibo.colorbynumber;
+package me.nakukibo.colorbynumber.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.util.List;
 
+import me.nakukibo.colorbynumber.BaseActivity;
+import me.nakukibo.colorbynumber.R;
+import me.nakukibo.colorbynumber.color.ColorImage;
 import me.nakukibo.colorbynumber.utils.GlideApp;
 
 public class ImageListAdapter extends ArrayAdapter<ColorImage> {
