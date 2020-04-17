@@ -10,8 +10,6 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,11 +23,6 @@ public class FloatingMenuFragment extends Fragment {
 
     private static final int LAUNCH_CODE_CAMERA = 21;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 22;
-
-    private FloatingActionButton btnToggle;
-    private FloatingActionButton btnCamera;
-    private FloatingActionButton btnGallery;
-    private boolean menuOn;
 
     public FloatingMenuFragment() {
     }
@@ -223,24 +216,6 @@ public class FloatingMenuFragment extends Fragment {
 //            Toast.makeText(getContext(), "Unexpected error: failed to launch camera.", Toast.LENGTH_LONG).show();
 //        }
 //    }
-
-    public void hideMenu() {
-        menuOn = false;
-
-        btnToggle.show();
-        btnToggle.setScaleX(0);
-        btnCamera.hide();
-        btnGallery.hide();
-    }
-
-    public void showMenu() {
-        menuOn = true;
-
-        btnToggle.show();
-        btnToggle.setScaleX(-1);
-        btnCamera.show();
-        btnGallery.show();
-    }
 
 //    private boolean hasCameraHardware(Context context) {
 //        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);

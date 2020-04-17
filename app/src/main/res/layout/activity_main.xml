@@ -7,33 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ListView
+            android:id="@+id/images_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/floating_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/menu_toggle"
+        app:layout_constraintEnd_toEndOf="@+id/menu_toggle"
+        app:layout_constraintStart_toStartOf="@+id/menu_toggle">
 
     </FrameLayout>
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/linearLayout"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_marginBottom="24dp"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <ListView-->
-    <!--            android:id="@+id/images_list"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--        </ListView>-->
-
-    <!--    </LinearLayout>-->
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/menu_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_expand_less_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>

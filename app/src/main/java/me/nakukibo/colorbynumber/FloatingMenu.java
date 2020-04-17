@@ -63,21 +63,5 @@ public class FloatingMenu extends LinearLayout {
 //        return view;
 //    }
 
-    public void hideMenu() {
-        menuOn = false;
 
-        btnMenu.show();
-        btnMenu.setScaleX(0);
-        btnCamera.hide();
-        btnGallery.hide();
-    }
-
-    public void showMenu() {
-        menuOn = true;
-
-        btnMenu.show();
-        btnMenu.setScaleX(-1);
-        btnCamera.show();
-        btnGallery.show();
-    }
 }
