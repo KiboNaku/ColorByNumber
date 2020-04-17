@@ -1,27 +1,23 @@
 package me.nakukibo.colorbynumber;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 //TODO: reduce the minimum sdk required
 
@@ -32,16 +28,12 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_WRITE_EXT = 0;
     private static final int REQUEST_CODE_READ_EXT = 1;
+    private static final int REQUEST_CODE_OPEN_POPUP = 13;
 
-    private boolean permissionsGranted = true;
-
-    private FloatingActionButton btnMenu;
-    private FloatingActionButton btnCamera;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton btnGallery;
-    private boolean menuOn;
+    private boolean permissionsGranted = false;
 
     //TODO: add shared preferences to timestamp most recent images
-    // TODO: add placeholders and stuff later
+    //TODO: add placeholders and stuff later
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,82 +41,117 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
-        wm.getDefaultDisplay().getMetrics(displayMetrics);
-        int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+//        // the results will be higher than using the activity context object or the getWindowManager() shortcut
+//        wm.getDefaultDisplay().getMetrics(displayMetrics);
+//        int screenWidth = displayMetrics.widthPixels;
+//        int screenHeight = displayMetrics.heightPixels;
+//
+//        Log.d(TAG, "onCreate: width=" + screenWidth + ", height=" + screenHeight);
+//
+//        printAllImageFiles();
+//        File[] files = getColoredSubdirectory().listFiles();
+//        if(files != null) {
+//            List<ColorImage> colorImages = new ArrayList<>();
+//
+//            for(int i=0; i<files.length; i++){
+//                colorImages.add(new ColorImage(files[i].getName()));
+//            }
+//
+//            ListView imgList = findViewById(R.id.images_list);
+//            imgList.setAdapter(new ImageListAdapter(this, colorImages));
+//
+//            imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    if (permissionsGranted) {
+//                        Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
+//                        intent.putExtra(FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
+//                        startActivity(intent);
+//                    } else {
+//                        Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            });
+//
+//        }
 
-        Log.d(TAG, "onCreate: width=" + screenWidth + ", height=" + screenHeight);
+        FloatingMenuFragment floatingMenuFragment = new FloatingMenuFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.floating_menu, floatingMenuFragment)
+                .commit();
 
-        printAllImageFiles();
-        File[] files = getColoredSubdirectory().listFiles();
-        if(files != null) {
-            List<ColorImage> colorImages = new ArrayList<>();
 
-            for(int i=0; i<files.length; i++){
-                colorImages.add(new ColorImage(files[i].getName()));
+//        permissionActivities();
+//        printAllImageFiles();
+    }
+
+
+    private void useBitmap(Bitmap selectedImage, String importFormat) {
+
+        final int MAX_RES_BIG = 1600;
+        final int MAX_RES_SM = 900;
+
+        int width = selectedImage.getWidth();
+        int height = selectedImage.getHeight();
+
+        Log.d(TAG, "useBitmap: image sizing (w x h): " + width + " x " + height);
+
+        if (width > height) {
+
+            double bigScale = width / (double) MAX_RES_BIG;
+            double smScale = height / (double) MAX_RES_SM;
+
+            if (bigScale > smScale) {
+                width = MAX_RES_BIG;
+                height = (int) Math.floor(height / bigScale);
+            } else {
+                height = MAX_RES_SM;
+                width = (int) Math.floor(width / smScale);
             }
+        } else {
 
-            ListView imgList = findViewById(R.id.images_list);
-            imgList.setAdapter(new ImageListAdapter(this, colorImages));
+            double bigScale = height / (double) MAX_RES_BIG;
+            double smScale = width / (double) MAX_RES_SM;
 
-            imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (permissionsGranted) {
-                        Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
-                        intent.putExtra(FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            if (bigScale > smScale) {
+                height = MAX_RES_BIG;
+                width = (int) Math.floor(width / bigScale);
+            } else {
+                width = MAX_RES_SM;
+                height = (int) Math.floor(height / smScale);
+            }
 
         }
 
-        btnMenu = findViewById(R.id.btn_menu);
-        btnCamera = findViewById(R.id.btn_camera);
-        btnGallery = findViewById(R.id.btn_gallery);
+        Log.d(TAG, "useBitmap: new image sizing (w x h): " + width + " x " + height);
 
-        hideMenu();
-        showMenu();
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: toggling menu");
-                if (menuOn) hideMenu();
-                else showMenu();
-            }
-        });
+        selectedImage = Bitmap.createScaledBitmap(selectedImage, width, height, true);
 
-        permissionActivities();
-        printAllImageFiles();
+        String fileName = getNewBitmapName(importFormat);
+
+        File originalFile = saveToInternalStorage(getOriginalSubdirectory(), fileName, selectedImage);
+
+        ImageView photoImageView = findViewById(R.id.image_view_retrieved);
+        photoImageView.setImageBitmap(selectedImage);
+
+        Intent intent = new Intent(this, ImportPopup.class);
+        intent.putExtra(FILE_NAME, fileName);
+        startActivityForResult(intent, REQUEST_CODE_OPEN_POPUP);
+    }
+
+    private String getNewBitmapName(String importFormat) {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        return importFormat + "_" + timeStamp + ".jpg";
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadImageFromStorage();
-    }
-
-    public void hideMenu() {
-        menuOn = false;
-
-        btnMenu.show();
-        btnMenu.setScaleX(1);
-        btnCamera.hide();
-        btnGallery.hide();
-    }
-
-    public void showMenu() {
-        menuOn = true;
-
-        btnMenu.show();
-        btnMenu.setScaleX(-1);
-        btnCamera.show();
-        btnGallery.show();
     }
 
     private void permissionActivities() {
