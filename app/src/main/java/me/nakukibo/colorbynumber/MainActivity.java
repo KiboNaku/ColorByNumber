@@ -13,9 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -36,8 +33,6 @@ public class MainActivity extends BaseActivity {
     private static final int REQUEST_CODE_OPEN_POPUP = 13;
 
     private boolean permissionsGranted = false;
-    private boolean menuOn;
-    private FloatingActionButton menuToggle;
     private FloatingMenuFragment floatingMenuFragment;
 
 
@@ -85,16 +80,7 @@ public class MainActivity extends BaseActivity {
 //            });
 //
 //        }
-        menuToggle = findViewById(R.id.menu_toggle);
 
-
-        menuToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (menuOn) hideMenu();
-                else showMenu();
-            }
-        });
 
 
         floatingMenuFragment = new FloatingMenuFragment();
@@ -103,39 +89,10 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.floating_menu, floatingMenuFragment)
                 .commit();
 
-        this.menuOn = false;
-        hideMenu();
+//        hideMenu();
 //        permissionActivities();
 //        printAllImageFiles();
     }
-
-    public void hideMenu() {
-
-        Log.d(TAG, "hideMenu: hiding menu");
-
-        menuOn = false;
-        menuToggle.setScaleY(1f);
-
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .hide(floatingMenuFragment)
-                .commit();
-    }
-
-    public void showMenu() {
-
-        Log.d(TAG, "showMenu: showing menu");
-
-        menuOn = true;
-        menuToggle.setScaleY(-1f);
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .show(floatingMenuFragment)
-                .commit();
-    }
-
 
     private void useBitmap(Bitmap selectedImage, String importFormat) {
 

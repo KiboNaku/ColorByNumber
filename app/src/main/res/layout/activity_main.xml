@@ -31,19 +31,10 @@
         android:id="@+id/floating_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/menu_toggle"
-        app:layout_constraintEnd_toEndOf="@+id/menu_toggle"
-        app:layout_constraintStart_toStartOf="@+id/menu_toggle">
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent">
 
     </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/menu_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_expand_less_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>

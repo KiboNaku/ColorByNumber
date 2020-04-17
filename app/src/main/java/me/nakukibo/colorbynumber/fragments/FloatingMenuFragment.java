@@ -10,6 +10,8 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import me.nakukibo.colorbynumber.R;
 import me.nakukibo.colorbynumber.adapters.DrawableListAdapter;
 
@@ -27,6 +29,9 @@ public class FloatingMenuFragment extends Fragment {
     private static final int LAUNCH_CODE_CAMERA = 21;
     private static final int LAUNCH_CODE_OPEN_GALLERY = 22;
 
+    private boolean menuOn;
+    private FloatingActionButton menuToggle;
+
     public FloatingMenuFragment() {
     }
 
@@ -37,9 +42,6 @@ public class FloatingMenuFragment extends Fragment {
 
         View menuView = inflater.inflate(R.layout.fragment_floating_menu, container, false);
 
-//        btnToggle = view.findViewById(R.id.btn_toggle);
-//        btnCamera = view.findViewById(R.id.btn_camera);
-//        btnGallery = view.findViewById(R.id.btn_gallery);
 //
 //        showMenu();
 //        btnToggle.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +97,27 @@ public class FloatingMenuFragment extends Fragment {
         final Drawable[] drawables = {
                 getResources().getDrawable(android.R.drawable.ic_menu_camera, getActivity().getTheme()),
                 getResources().getDrawable(android.R.drawable.ic_menu_gallery, getActivity().getTheme())};
-        ListView menuList = menuView.findViewById(R.id.list_menu);
+        final ListView menuList = menuView.findViewById(R.id.list_menu);
         DrawableListAdapter menuAdapter = new DrawableListAdapter(getContext(), drawables);
+
+        menuToggle = menuView.findViewById(R.id.menu_toggle);
+        menuOn = false;
+        menuList.setVisibility(View.GONE);
+
+        menuToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (menuOn) {
+                    menuOn = false;
+                    menuToggle.setScaleY(1f);
+                    menuList.setVisibility(View.GONE);
+                } else {
+                    menuOn = true;
+                    menuToggle.setScaleY(-1f);
+                    menuList.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
 //        menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
