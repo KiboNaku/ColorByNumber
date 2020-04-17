@@ -2,16 +2,21 @@ package me.nakukibo.colorbynumber;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -55,6 +60,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         return bitmap;
+    }
+
+    public String getNewBitmapName(String importFormat) {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        return importFormat + "_" + timeStamp + ".jpg";
+    }
+
+    public boolean hasPermission(String code) {
+        return ContextCompat.checkSelfPermission(this, code)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     public void printAllImageFiles(){

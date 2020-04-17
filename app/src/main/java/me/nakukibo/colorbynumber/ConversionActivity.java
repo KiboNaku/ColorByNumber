@@ -21,10 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.color.ColorSet;
@@ -380,9 +377,9 @@ public class ConversionActivity extends BaseActivity {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    private String getNewBitmapName(String importFormat) {
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        return importFormat + "_" + timeStamp + ".jpg";
-    }
+//    private String getNewBitmapName(String importFormat) {
+//
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+//        return importFormat + "_" + timeStamp + ".jpg";
+//    }
 }
