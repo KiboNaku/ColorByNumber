@@ -15,6 +15,8 @@ import me.nakukibo.colorbynumber.utils.OnUpdateListener;
 
 public class ImportPopup extends BaseActivity {
 
+    public static final String FILE_NAME = "filename";
+
     private static final String TAG = "ImportPopup";
     private String fileName = null;
     private boolean finishedColor = false;
@@ -25,6 +27,7 @@ public class ImportPopup extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.import_popup);
+        getSupportActionBar().hide();
 
         setWindow();
         startConversion();
@@ -60,7 +63,10 @@ public class ImportPopup extends BaseActivity {
     private void startConversion() {
 
         final ImageView imageView = findViewById(R.id.image_view_import);
-        fileName = getIntent().getStringExtra(ConversionActivity.FILE_NAME);
+        final View progressConvert = findViewById(R.id.progress_convert);
+        progressConvert.setVisibility(View.VISIBLE);
+
+        fileName = getIntent().getStringExtra(FILE_NAME);
 
         coloredCustomBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
 
@@ -69,7 +75,7 @@ public class ImportPopup extends BaseActivity {
             public void onComplete() {
                 imageView.setImageBitmap(getBitmap(getColoredSubdirectory(), fileName));
                 finishedColor = true;
-
+                progressConvert.setVisibility(View.INVISIBLE);
             }
         });
         coloredCustomBitmap.setOnUpdateListener(new OnUpdateListener() {

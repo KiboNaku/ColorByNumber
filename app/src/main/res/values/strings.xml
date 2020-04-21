@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ColorByNumber</string>
+    <string name="app_name">Color by Picture</string>
     <string name="button_launch_camera">Take Photo</string>
     <string name="title_activity_open_cv">OpenCvActivity</string>
 

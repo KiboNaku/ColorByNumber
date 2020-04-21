@@ -69,8 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public boolean hasPermission(String code) {
-        return ContextCompat.checkSelfPermission(this, code)
-                == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(this, code) == PackageManager.PERMISSION_GRANTED;
     }
 
     public void printAllImageFiles(){

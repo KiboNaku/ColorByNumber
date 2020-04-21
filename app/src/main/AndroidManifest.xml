@@ -21,7 +21,6 @@
             android:name=".ImportPopup"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".ColoringActivity" />
-        <activity android:name=".ConversionActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

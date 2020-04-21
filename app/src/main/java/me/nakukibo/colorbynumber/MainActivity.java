@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,8 +30,6 @@ import me.nakukibo.colorbynumber.menu.MenuItem;
 //TODO: reduce the minimum sdk required
 
 public class MainActivity extends BaseActivity {
-
-    public static final String FILE_NAME = "filename";
 
     private static final String TAG = "MainActivity";
 
@@ -67,8 +64,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION_EXT_STORAGE:
@@ -120,12 +116,13 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
+
             if (requestCode == LAUNCH_CODE_CAMERA) {
 
                 final String IMPORT = "camera";
-
-                View loadingBar = this.findViewById(R.id.progress_bar_load_image);
                 final String ERROR_NULL = "Unexpected error: failed to retrieve image.";
+
+                Log.d(TAG, "onActivityResult: fetching photo from camera");
 
                 Bundle extras = data.getExtras();
                 if (extras == null) {
@@ -136,22 +133,15 @@ public class MainActivity extends BaseActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 if (imageBitmap == null) {
                     Toast.makeText(this, ERROR_NULL, Toast.LENGTH_LONG).show();
-                    return;
+                } else {
+                    useBitmap(imageBitmap, IMPORT);
                 }
-
-                loadingBar.setVisibility(View.VISIBLE);
-//                useBitmap(imageBitmap, IMPORT);
-                loadingBar.setVisibility(View.INVISIBLE);
 
             } else if (requestCode == LAUNCH_CODE_GALLERY) {
 
                 final String IMPORT = "gallery";
 
                 Log.d(TAG, "onActivityResult: fetching photo from gallery");
-
-                View loadingBar = this.findViewById(R.id.progress_bar_load_image);
-                loadingBar.setVisibility(View.VISIBLE);
-
                 Bitmap selectedImage = null;
 
                 try {
@@ -166,13 +156,10 @@ public class MainActivity extends BaseActivity {
                 }
 
                 if (selectedImage == null) {
-
                     Toast.makeText(this, "Failed to retrieve image.", Toast.LENGTH_LONG).show();
                 } else {
-//                    useBitmap(selectedImage, IMPORT);
+                    useBitmap(selectedImage, IMPORT);
                 }
-
-                loadingBar.setVisibility(View.INVISIBLE);
             }
         } else {
             Toast.makeText(this, "Failed to retrieve result.", Toast.LENGTH_LONG).show();
@@ -284,14 +271,10 @@ public class MainActivity extends BaseActivity {
         selectedImage = Bitmap.createScaledBitmap(selectedImage, width, height, true);
 
         String fileName = getNewBitmapName(importFormat);
-
-        File originalFile = saveToInternalStorage(getOriginalSubdirectory(), fileName, selectedImage);
-
-        ImageView photoImageView = findViewById(R.id.image_view_retrieved);
-        photoImageView.setImageBitmap(selectedImage);
+        saveToInternalStorage(getOriginalSubdirectory(), fileName, selectedImage);
 
         Intent intent = new Intent(this, ImportPopup.class);
-        intent.putExtra(FILE_NAME, fileName);
+        intent.putExtra(ImportPopup.FILE_NAME, fileName);
         startActivityForResult(intent, REQUEST_CODE_OPEN_POPUP);
     }
 
@@ -343,7 +326,7 @@ public class MainActivity extends BaseActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (permissionsGranted) {
                         Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
-                        intent.putExtra(FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
+                        intent.putExtra(ColoringActivity.FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
                         startActivity(intent);
                     } else {
                         Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
@@ -388,5 +371,4 @@ public class MainActivity extends BaseActivity {
     private boolean hasCameraHardware(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
-
 }

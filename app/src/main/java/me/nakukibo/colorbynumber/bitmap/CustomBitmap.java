@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.io.File;
 
-import me.nakukibo.colorbynumber.ConversionActivity;
+import me.nakukibo.colorbynumber.BaseActivity;
 import me.nakukibo.colorbynumber.color.ColorSet;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
 import me.nakukibo.colorbynumber.utils.OnUpdateListener;
@@ -45,7 +45,7 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         switch (code) {
             case CONVERT_COLORED:
 
-                Bitmap bitmap = ConversionActivity.getBitmap(originalDir, fileName);
+                Bitmap bitmap = BaseActivity.getBitmap(originalDir, fileName);
 
                 if (uniqueColors == null) {
                     uniqueColors = BitmapConversion.getUniqueColors(bitmap);
@@ -55,10 +55,10 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
                 break;
             case CONVERT_BLANK:
 
-                Bitmap colored = ConversionActivity.getBitmap(coloredDir, fileName);
+                Bitmap colored = BaseActivity.getBitmap(coloredDir, fileName);
                 if (colored == null) {
 
-                    Bitmap original = ConversionActivity.getBitmap(originalDir, fileName);
+                    Bitmap original = BaseActivity.getBitmap(originalDir, fileName);
 
                     if (uniqueColors == null) {
                         uniqueColors = BitmapConversion.getUniqueColors(original);
@@ -67,7 +67,7 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
                     BitmapConversion.createColorGrouped(this, original, uniqueColors, coloredDir, fileName);
                     if (original != null) original.recycle();
-                    colored = ConversionActivity.getBitmap(coloredDir, fileName);
+                    colored = BaseActivity.getBitmap(coloredDir, fileName);
                 }
                 BitmapConversion.createColorBlank(this, colored, blankDir, fileName);
         }
