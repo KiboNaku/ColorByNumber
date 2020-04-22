@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -17,6 +20,12 @@ public class ColorSet extends LinkedList<MColor> {
             for (int j = 0; j < bitmap.getWidth(); j++) {
                 add(new MColor(bitmap.getPixel(j, i)));
             }
+        }
+    }
+
+    public ColorSet(JSONArray jsonArray) throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            add(new MColor((Integer) jsonArray.get(i)));
         }
     }
 

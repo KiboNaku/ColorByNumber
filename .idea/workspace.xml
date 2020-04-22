@@ -21,15 +21,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColoringActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColoringActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -62,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="997">
+              <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -71,20 +68,37 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4252">
-              <caret line="276" column="36" selection-start-line="276" selection-start-column="36" selection-end-line="276" selection-end-column="36" />
+            <state relative-caret-position="204">
+              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-83">
-              <caret line="69" column="134" selection-start-line="69" selection-start-column="134" selection-end-line="69" selection-end-column="134" />
+            <state relative-caret-position="52">
+              <caret line="46" column="12" lean-forward="true" selection-start-line="46" selection-start-column="12" selection-end-line="61" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/java/util/LinkedList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="784" column="16" selection-start-line="784" selection-start-column="16" selection-end-line="784" selection-end-column="16" />
+              <folding>
+                <element signature="e#9029#9030#0" expanded="true" />
+                <element signature="e#9057#9058#0" expanded="true" />
+                <element signature="e#12230#12231#0" expanded="true" />
+                <element signature="e#12268#12269#0" expanded="true" />
+                <element signature="e#24235#24236#0" expanded="true" />
+                <element signature="e#24262#24263#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,50 +106,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="69" column="42" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
+            <state relative-caret-position="164">
+              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3468#3469#0" expanded="true" />
+                <element signature="e#3507#3508#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml">
-          <provider selected="true" editor-type-id="android-designer2" />
-          <provider editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColoringActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="20" column="62" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/MenuListAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            <state relative-caret-position="381">
+              <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/MenuItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#325#326#0" expanded="true" />
-                <element signature="e#356#357#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -167,7 +155,6 @@
       <find>CustomBitmap</find>
       <find>Pop</find>
       <find>MainActivity.this</find>
-      <find>permissionsGranted</find>
       <find>hasCam</find>
       <find>adapter</find>
       <find>ada</find>
@@ -175,6 +162,13 @@
       <find>camera</find>
       <find>checkself</find>
       <find>launchCamera</find>
+      <find>setOn</find>
+      <find>permissionsGranted</find>
+      <find>hasPer</find>
+      <find>name</find>
+      <find>date</find>
+      <find>Custom</find>
+      <find>ImportPop</find>
     </findStrings>
     <replaceStrings>
       <replace>getContext()</replace>
@@ -187,7 +181,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColorView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_importer.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MBitmap.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/CustomBitmap.java" />
@@ -199,7 +192,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/utils/OnCompleteListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/MColor.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml" />
@@ -212,7 +204,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColorListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/utils/OnUpdateListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImageListAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/color_image.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/floating_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/DrawableListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/drawable_item.xml" />
@@ -220,7 +211,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/FloatingMenu.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/FloatingMenuFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/lists/adapters/ImageListAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorImage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/DrawableListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/MenuItem.java" />
@@ -231,21 +221,25 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_floating_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/FloatingMenuFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColoringActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/color_image.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
-    <option name="width" value="1939" />
-    <option name="height" value="1099" />
+    <option name="width" value="1940" />
+    <option name="height" value="1100" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -253,6 +247,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -269,6 +264,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -290,20 +286,21 @@
             <path>
               <item name="ColorByNumber" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="colorbynumber" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="bitmap" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ColorByNumber" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="colorbynumber" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="color" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -566,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587164678268</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="MainActivity: readded import">
+      <created>1587512313035</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1587512313035</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -591,7 +595,7 @@
       <window_info id="Resources Explorer" order="6" weight="0.3295302" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Favorites" order="8" sideWeight="0.50268096" side_tool="true" weight="0.15503356" />
-      <window_info active="true" anchor="bottom" id="Run" order="0" sideWeight="0.7503356" visible="true" weight="0.37801608" />
+      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.7503356" weight="0.37801608" />
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.8550336" weight="0.3297587" />
       <window_info anchor="bottom" id="Android Profiler" order="2" weight="0.9597855" />
       <window_info anchor="bottom" id="Debug" order="3" />
@@ -602,12 +606,12 @@
       <window_info anchor="bottom" id="Build" order="8" weight="0.3297587" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.3297587" />
       <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.3297587" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Preview" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Gradle" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Preview" order="4" />
+      <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" weight="0.3295302" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49731904" visible="true" weight="0.27651006" />
@@ -662,23 +666,13 @@
     <MESSAGE value="FloatingMenuFragment: refactored toggle code here" />
     <MESSAGE value="FloatingMenuFragment: generalized menu fragment" />
     <MESSAGE value="MainActivity: functional menu buttons" />
-    <option name="LAST_COMMIT_MESSAGE" value="MainActivity: functional menu buttons" />
+    <MESSAGE value="MainActivity: readded import" />
+    <option name="LAST_COMMIT_MESSAGE" value="MainActivity: readded import" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/graphics/BitmapFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="540" column="25" selection-start-line="540" selection-start-column="25" selection-end-line="540" selection-end-column="25" />
-          <folding>
-            <element signature="e#24721#24722#0" expanded="true" />
-            <element signature="e#24770#24771#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/CustomThread.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ZoomableImage.java" />
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/content/ContextWrapper.java">
@@ -718,19 +712,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="128" column="22" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/java/util/LinkedList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="385" column="19" selection-start-line="385" selection-start-column="19" selection-end-line="385" selection-end-column="19" />
-          <folding>
-            <element signature="e#9029#9030#0" expanded="true" />
-            <element signature="e#9057#9058#0" expanded="true" />
-            <element signature="e#12230#12231#0" expanded="true" />
-            <element signature="e#12268#12269#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -783,28 +764,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_conversion.xml" />
     <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3ec6fa8458ddbe732478393a9f9e6c77/constraintlayout-1.1.3/jars/classes.jar!/androidx/constraintlayout/widget/ConstraintLayout.class">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/utils/InProgressBitmapListener.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="292">
@@ -830,12 +794,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_coloring.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/utils/OnCompleteListener.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -851,21 +815,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/color_image.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="58" selection-start-line="37" selection-start-column="58" selection-end-line="37" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawable_item.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -892,16 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ColorListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -915,20 +861,20 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/floating_menu.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/FloatingMenu.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_floating_menu.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="50" selection-start-line="1" selection-start-column="50" selection-end-line="1" selection-end-column="50" />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/FloatingMenuFragment.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -954,22 +900,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/MenuListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/menu/MenuItem.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -982,15 +918,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ConversionActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="56" column="4" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="4" />
+        <state relative-caret-position="17">
+          <caret line="1" column="44" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/MenuListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/color_image.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="40" lean-forward="true" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ColoringActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -999,31 +955,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/import_popup.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/color/ColorSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="42" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
+        <state relative-caret-position="323">
+          <caret line="27" column="56" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4252">
-          <caret line="276" column="36" selection-start-line="276" selection-start-column="36" selection-end-line="276" selection-end-column="36" />
+        <state relative-caret-position="997">
+          <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/BaseActivity.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/java/util/LinkedList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        <state relative-caret-position="240">
+          <caret line="784" column="16" selection-start-line="784" selection-start-column="16" selection-end-line="784" selection-end-column="16" />
+          <folding>
+            <element signature="e#9029#9030#0" expanded="true" />
+            <element signature="e#9057#9058#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <element signature="e#12268#12269#0" expanded="true" />
+            <element signature="e#24235#24236#0" expanded="true" />
+            <element signature="e#24262#24263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/adapters/ImageListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1032,8 +1002,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/ImportPopup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-83">
-          <caret line="69" column="134" selection-start-line="69" selection-start-column="134" selection-end-line="69" selection-end-column="134" />
+        <state relative-caret-position="52">
+          <caret line="46" column="12" lean-forward="true" selection-start-line="46" selection-start-column="12" selection-end-line="61" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/bitmap/CustomBitmap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3468#3469#0" expanded="true" />
+            <element signature="e#3507#3508#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/me/nakukibo/colorbynumber/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
         </state>
       </provider>
     </entry>

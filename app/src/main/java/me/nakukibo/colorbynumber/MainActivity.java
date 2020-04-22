@@ -3,10 +3,12 @@ package me.nakukibo.colorbynumber;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +19,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import me.nakukibo.colorbynumber.adapters.ImageListAdapter;
+import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.color.ColorImage;
 import me.nakukibo.colorbynumber.menu.FloatingMenuFragment;
 import me.nakukibo.colorbynumber.menu.MenuItem;
@@ -40,8 +48,8 @@ public class MainActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_OPEN_POPUP = 41;
 
-    private boolean permissionsGranted = false;
     private FloatingMenuFragment floatingMenuFragment;
+    private LinkedList<CustomBitmap> customBitmaps;
 
     //TODO: add shared preferences to timestamp most recent images
     //TODO: add placeholders and stuff later
@@ -51,6 +59,19 @@ public class MainActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        customBitmaps = new LinkedList<>();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String bitmapsStr = sharedPreferences.getString(PREF_CBITMAPS, null);
+        try {
+
+            JSONArray bitmapsArray = new JSONArray(bitmapsStr);
+            for (int i = 0; i < bitmapsArray.length(); i++) {
+                customBitmaps.add(CustomBitmap.make(new JSONObject((String) bitmapsArray.get(i)), getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         permissionActivities();
         instantiateFragment();
@@ -324,7 +345,8 @@ public class MainActivity extends BaseActivity {
             imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (permissionsGranted) {
+                    if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
+                            hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
                         intent.putExtra(ColoringActivity.FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
                         startActivity(intent);

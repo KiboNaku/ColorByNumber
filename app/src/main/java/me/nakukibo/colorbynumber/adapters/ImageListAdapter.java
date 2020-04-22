@@ -58,6 +58,7 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
                 notifyDataSetChanged();
             }
         });
+        btnDel.setFocusable(false);
 
         GlideApp
                 .with(context)

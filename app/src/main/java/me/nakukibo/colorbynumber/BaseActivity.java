@@ -20,6 +20,7 @@ import java.util.Locale;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    public static final String PREF_CBITMAPS = "cBitmaps";
     private static final String TAG = "BaseActivity";
 
     public static File saveToInternalStorage(File directory, String fileName, Bitmap bitmap) {

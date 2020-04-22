@@ -4,6 +4,12 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 
 import me.nakukibo.colorbynumber.BaseActivity;
@@ -17,6 +23,8 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     public static final int CONVERT_BLANK = 2;
 
     private static final String TAG = "CustomBitmap";
+    private static final String FILE_NAME = "fileName";
+    private static final String UNIQUE_COLORS = "uniqueColors";
 
     private String fileName;
     private File originalDir;
@@ -25,6 +33,22 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
     private ColorSet uniqueColors;
     private OnUpdateListener onUpdateListener;
     private OnCompleteListener onCompleteListener;
+
+    private CustomBitmap() {
+    }
+
+    public static CustomBitmap make(JSONObject cBitmap, File originalDir, File coloredDir, File blankDir)
+            throws JSONException {
+        CustomBitmap customBitmap = new CustomBitmap();
+        customBitmap.fileName = cBitmap.getString(FILE_NAME);
+        customBitmap.originalDir = originalDir;
+        customBitmap.coloredDir = coloredDir;
+        customBitmap.blankDir = blankDir;
+
+        JSONArray jsonArray = new JSONArray(UNIQUE_COLORS);
+        customBitmap.uniqueColors = new ColorSet(jsonArray);
+        return customBitmap;
+    }
 
     public CustomBitmap(String fileName, File originalDir, File coloredDir, File blankDir) {
         this.fileName = fileName;
@@ -101,6 +125,26 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
 
     public void setOnCompleteListener(OnCompleteListener onCompleteListener) {
         this.onCompleteListener = onCompleteListener;
+    }
+
+    @Override
+    @NonNull
+    public String toString() {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONArray colorsArray = new JSONArray(uniqueColors);
+
+            jsonObject.put(FILE_NAME, fileName);
+            jsonObject.put(UNIQUE_COLORS, colorsArray);
+
+            Log.d(TAG, "toString: " + jsonObject.toString());
+
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
 

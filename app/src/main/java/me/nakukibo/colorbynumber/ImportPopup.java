@@ -2,12 +2,19 @@ package me.nakukibo.colorbynumber;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.LinkedList;
 
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.utils.OnCompleteListener;
@@ -37,8 +44,22 @@ public class ImportPopup extends BaseActivity {
 
         if(finishedColor){
 
-            CustomBitmap customBitmap = new CustomBitmap(fileName, getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory());
-            customBitmap.execute(CustomBitmap.CONVERT_BLANK);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String bitmapsStr = sharedPreferences.getString(PREF_CBITMAPS, null);
+            try {
+                LinkedList<String> bitmapsList = new LinkedList<>();
+
+                JSONArray bitmapsArray = new JSONArray(bitmapsStr);
+                for (int i = 0; i < bitmapsArray.length(); i++) {
+                    bitmapsList.add((String) bitmapsArray.get(i));
+                }
+
+                bitmapsList.push(coloredCustomBitmap.toString());
+
+                sharedPreferences.edit().putString(PREF_CBITMAPS, (new JSONArray(bitmapsList)).toString()).apply();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             Intent intent = new Intent();
             setResult(Activity.RESULT_OK, intent);
@@ -76,6 +97,7 @@ public class ImportPopup extends BaseActivity {
                 imageView.setImageBitmap(getBitmap(getColoredSubdirectory(), fileName));
                 finishedColor = true;
                 progressConvert.setVisibility(View.INVISIBLE);
+                coloredCustomBitmap.execute(CustomBitmap.CONVERT_BLANK);
             }
         });
         coloredCustomBitmap.setOnUpdateListener(new OnUpdateListener() {
