@@ -25,13 +25,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import me.nakukibo.colorbynumber.adapters.ImageListAdapter;
 import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
-import me.nakukibo.colorbynumber.color.ColorImage;
 import me.nakukibo.colorbynumber.menu.FloatingMenuFragment;
 import me.nakukibo.colorbynumber.menu.MenuItem;
 
@@ -48,9 +45,6 @@ public class MainActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_OPEN_POPUP = 41;
 
-    private FloatingMenuFragment floatingMenuFragment;
-    private LinkedList<CustomBitmap> customBitmaps;
-
     //TODO: add shared preferences to timestamp most recent images
     //TODO: add placeholders and stuff later
 
@@ -59,19 +53,6 @@ public class MainActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        customBitmaps = new LinkedList<>();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String bitmapsStr = sharedPreferences.getString(PREF_CBITMAPS, null);
-        try {
-
-            JSONArray bitmapsArray = new JSONArray(bitmapsStr);
-            for (int i = 0; i < bitmapsArray.length(); i++) {
-                customBitmaps.add(CustomBitmap.make(new JSONObject((String) bitmapsArray.get(i)), getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory()));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         permissionActivities();
         instantiateFragment();
@@ -97,7 +78,6 @@ public class MainActivity extends BaseActivity {
                 } else {
                     Toast.makeText(this, "Cannot create directories. Permission not granted.", Toast.LENGTH_LONG).show();
                 }
-
                 break;
 
             case LAUNCH_CODE_CAMERA:
@@ -112,7 +92,6 @@ public class MainActivity extends BaseActivity {
                         Toast.makeText(this, "Cannot open camera. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
                     }
                 }
-
                 break;
 
             case LAUNCH_CODE_GALLERY:
@@ -127,7 +106,6 @@ public class MainActivity extends BaseActivity {
                         Toast.makeText(this, "Cannot open gallery. Writing to memory permission not given.", Toast.LENGTH_LONG).show();
                     }
                 }
-
                 break;
         }
     }
@@ -205,7 +183,7 @@ public class MainActivity extends BaseActivity {
 
     private void instantiateFragment() {
 
-        floatingMenuFragment = new FloatingMenuFragment();
+        FloatingMenuFragment floatingMenuFragment = new FloatingMenuFragment();
 
         // camera menu button
         floatingMenuFragment.addMenuItem(new MenuItem(getDrawable(android.R.drawable.ic_menu_camera)) {
@@ -330,33 +308,41 @@ public class MainActivity extends BaseActivity {
 
     private void loadColoringImages() {
 
-        File[] files = getColoredSubdirectory().listFiles();
-        if (files != null) {
+        LinkedList<CustomBitmap> customBitmaps = new LinkedList<>();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String bitmapsStr = sharedPreferences.getString(PREF_CBITMAPS, null);
 
-            List<ColorImage> colorImages = new ArrayList<>();
+        try {
 
-            for (File f : files) {
-                colorImages.add(new ColorImage(f.getName()));
-            }
-
-            ListView imgList = findViewById(R.id.images_list);
-            imgList.setAdapter(new ImageListAdapter(this, colorImages));
-
-            imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
-                            hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
-                        intent.putExtra(ColoringActivity.FILE_NAME, ((ColorImage) parent.getItemAtPosition(position)).getFileName());
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
-                    }
+            if (bitmapsStr != null) {
+                JSONArray bitmapsArray = new JSONArray(bitmapsStr);
+                for (int i = 0; i < bitmapsArray.length(); i++) {
+                    customBitmaps.add(CustomBitmap.make(new JSONObject((String) bitmapsArray.get(i)),
+                            getOriginalSubdirectory(), getColoredSubdirectory(), getBlankSubdirectory()));
                 }
-            });
-
+            } else {
+                Log.d(TAG, "loadColoringImages: bitmapStr is null");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        ListView imgList = findViewById(R.id.images_list);
+        imgList.setAdapter(new ImageListAdapter(this, customBitmaps));
+
+        imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
+                        hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Intent intent = new Intent(MainActivity.this, ColoringActivity.class);
+                    intent.putExtra(ColoringActivity.FILE_NAME, ((CustomBitmap) parent.getItemAtPosition(position)).getFileName());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Requested permission not granted. Cannot continue.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private boolean createDirectory(File dir, String logHead) {

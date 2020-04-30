@@ -45,7 +45,7 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         customBitmap.coloredDir = coloredDir;
         customBitmap.blankDir = blankDir;
 
-        JSONArray jsonArray = new JSONArray(UNIQUE_COLORS);
+        JSONArray jsonArray = cBitmap.getJSONArray(UNIQUE_COLORS);
         customBitmap.uniqueColors = new ColorSet(jsonArray);
         return customBitmap;
     }
@@ -99,6 +99,25 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         return null;
     }
 
+    @Override
+    @NonNull
+    public String toString() {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put(FILE_NAME, fileName);
+            jsonObject.put(UNIQUE_COLORS, uniqueColors.toJsonArray());
+
+            Log.d(TAG, "toString: converting CustomBitmap = " + jsonObject.toString());
+
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public void updateProgress(Bitmap... values) {
         publishProgress(values);
     }
@@ -108,6 +127,10 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         super.onProgressUpdate(values);
 
         if (onUpdateListener != null) onUpdateListener.onUpdate(values[0]);
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     @Override
@@ -127,25 +150,6 @@ public class CustomBitmap extends AsyncTask<Integer, Bitmap, Void> {
         this.onCompleteListener = onCompleteListener;
     }
 
-    @Override
-    @NonNull
-    public String toString() {
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            JSONArray colorsArray = new JSONArray(uniqueColors);
-
-            jsonObject.put(FILE_NAME, fileName);
-            jsonObject.put(UNIQUE_COLORS, colorsArray);
-
-            Log.d(TAG, "toString: " + jsonObject.toString());
-
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
 }
 
 

@@ -17,27 +17,27 @@ import java.util.List;
 
 import me.nakukibo.colorbynumber.BaseActivity;
 import me.nakukibo.colorbynumber.R;
-import me.nakukibo.colorbynumber.color.ColorImage;
+import me.nakukibo.colorbynumber.bitmap.CustomBitmap;
 import me.nakukibo.colorbynumber.utils.GlideApp;
 
-public class ImageListAdapter extends ArrayAdapter<ColorImage> {
+public class ImageListAdapter extends ArrayAdapter<CustomBitmap> {
 
     private static final String TAG = "ImageListAdapter";
 
     private BaseActivity context;
-    private List<ColorImage> images;
+    private List<CustomBitmap> customBitmaps;
 
-    public ImageListAdapter(@NonNull BaseActivity context, @NonNull List<ColorImage> objects) {
-        super(context, R.layout.color_image, objects);
+    public ImageListAdapter(@NonNull BaseActivity context, @NonNull List<CustomBitmap> customBitmaps) {
+        super(context, R.layout.color_image, customBitmaps);
         this.context = context;
-        this.images = objects;
+        this.customBitmaps = customBitmaps;
     }
 
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        //TODO: add error and other fallback images to GlideApp
+        //TODO: add error and other fallback customBitmaps to GlideApp
 
         View colorImageView = convertView;
 
@@ -46,15 +46,15 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
         }
 
         File dir = context.getColoredSubdirectory();
-        final ColorImage colorImage = images.get(position);
+        final CustomBitmap customBitmap = customBitmaps.get(position);
         ImageView imageView = colorImageView.findViewById(R.id.image_display);
 
         FloatingActionButton btnDel = colorImageView.findViewById(R.id.btn_delete);
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                images.remove(position);
-                context.deleteImage(colorImage.getFileName());
+                customBitmaps.remove(position);
+                context.deleteImage(customBitmap.getFileName());
                 notifyDataSetChanged();
             }
         });
@@ -62,12 +62,12 @@ public class ImageListAdapter extends ArrayAdapter<ColorImage> {
 
         GlideApp
                 .with(context)
-                .load(new File(dir, colorImage.getFileName()))
+                .load(new File(dir, customBitmap.getFileName()))
                 .centerCrop()
                 .into(imageView);
 
         TextView imgName = colorImageView.findViewById(R.id.image_name);
-        imgName.setText(colorImage.getImageName());
+        imgName.setText(customBitmap.getFileName());
 
         return colorImageView;
     }

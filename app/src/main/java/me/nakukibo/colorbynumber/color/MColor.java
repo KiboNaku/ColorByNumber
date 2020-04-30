@@ -4,9 +4,9 @@ import androidx.core.graphics.ColorUtils;
 
 public class MColor {
 
-    private Integer color;
+    private int color;
 
-    public MColor(Integer color) {
+    public MColor(int color) {
         this.color = color;
     }
 
@@ -29,7 +29,7 @@ public class MColor {
         return lab;
     }
 
-    public Integer getColor() {
+    public int getColor() {
         return color;
     }
 }

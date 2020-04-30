@@ -14,21 +14,6 @@ public class ColorSet extends LinkedList<MColor> {
 
     private long minDistSqr = 180;
 
-    public ColorSet(@NonNull Bitmap bitmap) {
-
-        for (int i = 0; i < bitmap.getHeight(); i++) {
-            for (int j = 0; j < bitmap.getWidth(); j++) {
-                add(new MColor(bitmap.getPixel(j, i)));
-            }
-        }
-    }
-
-    public ColorSet(JSONArray jsonArray) throws JSONException {
-        for (int i = 0; i < jsonArray.length(); i++) {
-            add(new MColor((Integer) jsonArray.get(i)));
-        }
-    }
-
     public ColorSet(@NonNull Collection<? extends MColor> c) {
         addAll(c);
     }
@@ -99,6 +84,32 @@ public class ColorSet extends LinkedList<MColor> {
         }
 
         return true;
+    }
+
+    public ColorSet(@NonNull Bitmap bitmap) {
+
+        for (int i = 0; i < bitmap.getHeight(); i++) {
+            for (int j = 0; j < bitmap.getWidth(); j++) {
+                add(new MColor(bitmap.getPixel(j, i)));
+            }
+        }
+    }
+
+    public ColorSet(JSONArray jsonArray) throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            add(new MColor(jsonArray.getInt(i)));
+        }
+    }
+
+    @NonNull
+    public JSONArray toJsonArray() {
+
+        JSONArray colorsArray = new JSONArray();
+        for (MColor mColor : this) {
+            System.out.print(mColor.getColor() + " ");
+            colorsArray.put(mColor.getColor());
+        }
+        return colorsArray;
     }
 
     public MColor getClosestColor(MColor cColor) {

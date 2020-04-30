@@ -49,9 +49,11 @@ public class ImportPopup extends BaseActivity {
             try {
                 LinkedList<String> bitmapsList = new LinkedList<>();
 
-                JSONArray bitmapsArray = new JSONArray(bitmapsStr);
-                for (int i = 0; i < bitmapsArray.length(); i++) {
-                    bitmapsList.add((String) bitmapsArray.get(i));
+                if (bitmapsStr != null) {
+                    JSONArray bitmapsArray = new JSONArray(bitmapsStr);
+                    for (int i = 0; i < bitmapsArray.length(); i++) {
+                        bitmapsList.add((String) bitmapsArray.get(i));
+                    }
                 }
 
                 bitmapsList.push(coloredCustomBitmap.toString());
@@ -94,10 +96,8 @@ public class ImportPopup extends BaseActivity {
         coloredCustomBitmap.setOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete() {
-                imageView.setImageBitmap(getBitmap(getColoredSubdirectory(), fileName));
                 finishedColor = true;
                 progressConvert.setVisibility(View.INVISIBLE);
-                coloredCustomBitmap.execute(CustomBitmap.CONVERT_BLANK);
             }
         });
         coloredCustomBitmap.setOnUpdateListener(new OnUpdateListener() {
@@ -107,7 +107,7 @@ public class ImportPopup extends BaseActivity {
             }
         });
 
-        coloredCustomBitmap.execute(CustomBitmap.CONVERT_COLORED);
+        coloredCustomBitmap.execute(CustomBitmap.CONVERT_BLANK);
     }
 
     private void setWindow() {
